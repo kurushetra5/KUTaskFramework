@@ -8,12 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		61DE8E57206DBAC000C77F5F /* KUTaskFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 61DE8E55206DBAC000C77F5F /* KUTaskFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		61DE8E62206DBB0600C77F5F /* Comands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DE8E5E206DBB0600C77F5F /* Comands.swift */; };
+		61DE8E63206DBB0600C77F5F /* IPLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DE8E5F206DBB0600C77F5F /* IPLocator.swift */; };
+		61DE8E64206DBB0600C77F5F /* ComandRuner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DE8E60206DBB0600C77F5F /* ComandRuner.swift */; };
+		61DE8E65206DBB0600C77F5F /* Prasers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DE8E61206DBB0600C77F5F /* Prasers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		61DE8E52206DBAC000C77F5F /* KUTaskFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KUTaskFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61DE8E55206DBAC000C77F5F /* KUTaskFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KUTaskFramework.h; sourceTree = "<group>"; };
 		61DE8E56206DBAC000C77F5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		61DE8E5E206DBB0600C77F5F /* Comands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comands.swift; sourceTree = "<group>"; };
+		61DE8E5F206DBB0600C77F5F /* IPLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPLocator.swift; sourceTree = "<group>"; };
+		61DE8E60206DBB0600C77F5F /* ComandRuner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComandRuner.swift; sourceTree = "<group>"; };
+		61DE8E61206DBB0600C77F5F /* Prasers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prasers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,10 +54,22 @@
 		61DE8E54206DBAC000C77F5F /* KUTaskFramework */ = {
 			isa = PBXGroup;
 			children = (
+				61DE8E5D206DBB0600C77F5F /* Comands */,
 				61DE8E55206DBAC000C77F5F /* KUTaskFramework.h */,
 				61DE8E56206DBAC000C77F5F /* Info.plist */,
 			);
 			path = KUTaskFramework;
+			sourceTree = "<group>";
+		};
+		61DE8E5D206DBB0600C77F5F /* Comands */ = {
+			isa = PBXGroup;
+			children = (
+				61DE8E5E206DBB0600C77F5F /* Comands.swift */,
+				61DE8E5F206DBB0600C77F5F /* IPLocator.swift */,
+				61DE8E60206DBB0600C77F5F /* ComandRuner.swift */,
+				61DE8E61206DBB0600C77F5F /* Prasers.swift */,
+			);
+			path = Comands;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -131,6 +151,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61DE8E65206DBB0600C77F5F /* Prasers.swift in Sources */,
+				61DE8E62206DBB0600C77F5F /* Comands.swift in Sources */,
+				61DE8E64206DBB0600C77F5F /* ComandRuner.swift in Sources */,
+				61DE8E63206DBB0600C77F5F /* IPLocator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +288,7 @@
 				INFOPLIST_FILE = KUTaskFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = Talaiot.KUTaskFramework;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -286,6 +311,7 @@
 				INFOPLIST_FILE = KUTaskFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = Talaiot.KUTaskFramework;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
