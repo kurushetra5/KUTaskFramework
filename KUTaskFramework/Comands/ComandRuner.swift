@@ -47,10 +47,15 @@ public class ComandsRuner {
     
     
     
-    public static func run(comand:String, forEver:Bool, completion:@escaping (String) -> Void) {
+    public static func run(comand:String, toIp:String!, forEver:Bool, completion:@escaping (String) -> Void) {
         
+        var ip:String = "0.0.0.0" //TODO: cambiar ???
         var comandForRun:Comand!
         var isOk:Bool = false
+        
+        if toIp != nil {
+            ip = toIp
+        }
         
         switch comand {
         // ----------------------- FIREWALL -----------------------
@@ -73,20 +78,27 @@ public class ComandsRuner {
             comandForRun =  FireWallStop(withId: comandsRunerId)
             
         case ComandType.fireWallBadHosts.rawValue:
+            praser = badHostsPraser()
             print("fireWallBadHosts")
-            comandForRun =  MtRoute(withIp:"192.168.8.1", withId:comandsRunerId)
+            comandForRun = FireWallBadHosts(withId:comandsRunerId)
             isOk = true
+            
         case ComandType.addFireWallBadHosts.rawValue:
+            praser = GenericPraser()
             print("addFireWallBadHosts")
-            comandForRun =  MtRoute(withIp:"192.168.8.1", withId:comandsRunerId)
+            comandForRun =  AddFireWallBadHosts(withIp:ip, withId: comandsRunerId)
             isOk = true
+            
         case ComandType.deleteFireWallBadHosts.rawValue:
+            praser = GenericPraser()
             print("deleteFireWallBadHosts")
-            comandForRun =  MtRoute(withIp:"192.168.8.1", withId:comandsRunerId)
+            comandForRun =  DeleteFireWallBadHosts(withIp:ip, withId:comandsRunerId)
             isOk = true
+            
         case ComandType.blockIp.rawValue:
+            praser = GenericPraser()
             print("blockIp")
-            comandForRun =  MtRoute(withIp:"192.168.8.1", withId:comandsRunerId)
+            comandForRun =  GenericComand(type:.ping, taskPath:"/usr/bin/block", taskArgs:[ip])
             isOk = true
             
             
@@ -94,42 +106,49 @@ public class ComandsRuner {
         case ComandType.mtRoute.rawValue:
             praser = GenericPraser()
             print("mtRoute")
-            comandForRun =  MtRoute(withIp:"192.168.8.1", withId:comandsRunerId)
+            comandForRun =  MtRoute(withIp:ip, withId:comandsRunerId)
             isOk = true
+            
         case ComandType.nsLookup .rawValue:
             praser = GenericPraser()
             print("nsLookup")
-            comandForRun =  NsLookup(withIp:"192.168.8.1")
+            comandForRun =  NsLookup(withIp:ip)
             isOk = true
+            
         case ComandType.ping.rawValue:
             praser = GenericPraser()
             print("ping")
-            comandForRun = GenericComand(type:.ping, taskPath:"/usr/bin/ping", taskArgs:["192.168.8.1"])
+            comandForRun = GenericComand(type:.ping, taskPath:"/usr/bin/ping", taskArgs:[ip])
             isOk = true
+            
          case ComandType.traceRoute.rawValue:
             praser = GenericPraser()
             print("traceRoute")
-            comandForRun =  TraceRoute(withIp:"192.168.8.1")
+            comandForRun =  TraceRoute(withIp:ip)
             isOk = true
+            
         case ComandType.whois.rawValue:
             praser = GenericPraser()
             print("whois")
-            comandForRun =  Whois(withIp:"192.168.8.1")
+            comandForRun =  Whois(withIp:ip)
             isOk = true
+            
         case ComandType.dig.rawValue:
             praser = GenericPraser()
             print("dig")
-            comandForRun =  GenericComand(type:.dig, taskPath:"/usr/bin/dig", taskArgs:["192.168.8.1"])
+            comandForRun =  GenericComand(type:.dig, taskPath:"/usr/bin/dig", taskArgs:[ip])
             isOk = true
+            
         case ComandType.history.rawValue:
             praser = GenericPraser()
             print("history")
-            comandForRun =  GenericComand(type:.history, taskPath:"/usr/bin/history", taskArgs:["192.168.8.1"])
+            comandForRun =  GenericComand(type:.history, taskPath:"/usr/bin/history", taskArgs:[ip])
             isOk = true
+            
         case ComandType.ports_Services.rawValue:
             praser = GenericPraser()
             print("ports_Services")
-            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/bin/nmap", taskArgs:["192.168.8.1"])
+            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/bin/nmap", taskArgs:[ip])
             isOk = true
             
             
@@ -152,20 +171,22 @@ public class ComandsRuner {
         case ComandType.conectionData.rawValue:
             praser = GenericPraser()
             print("conectionData")
-            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/bin/nmap", taskArgs:["192.168.8.1"])
+            comandForRun =  GenericComand(type:.conectionData, taskPath:"/usr/bin/tcpdump", taskArgs:[ip])
             isOk = true
             
             //  ----------------------- GENERICS -----------------------
         case ComandType.genericComand.rawValue:
             praser = GenericPraser()
             print("genericComand")
-            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/bin/nmap", taskArgs:["192.168.8.1"])
+            comandForRun =  GenericComand(type:.genericComand, taskPath:"/usr/bin/pwd", taskArgs:[ip])
             isOk = true
+            
         case ComandType.generic.rawValue:
             praser = GenericPraser()
             print("generic")
-            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/bin/nmap", taskArgs:["192.168.8.1"])
+            comandForRun =  GenericComand(type:.generic, taskPath:"/usr/bin/ls", taskArgs:[ip])
             isOk = true
+            
         default:
             print("no")
             isOk = false

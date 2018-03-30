@@ -64,10 +64,10 @@
 		61DE8E5D206DBB0600C77F5F /* Comands */ = {
 			isa = PBXGroup;
 			children = (
-				61DE8E5E206DBB0600C77F5F /* Comands.swift */,
-				61DE8E5F206DBB0600C77F5F /* IPLocator.swift */,
 				61DE8E60206DBB0600C77F5F /* ComandRuner.swift */,
+				61DE8E5E206DBB0600C77F5F /* Comands.swift */,
 				61DE8E61206DBB0600C77F5F /* Prasers.swift */,
+				61DE8E5F206DBB0600C77F5F /* IPLocator.swift */,
 			);
 			path = Comands;
 			sourceTree = "<group>";

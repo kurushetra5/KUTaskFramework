@@ -63,7 +63,7 @@ protocol ComandIpId:ComandRunerId,ComandIp {
 
 
 extension ComandIpId    {
-    
+    //TODO: mirar si se pueden quitar los inits
     init(withIp:String) {
         self.init(withIp:withIp)
     }
