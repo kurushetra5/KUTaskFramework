@@ -16,8 +16,9 @@ protocol ComandsRunerDelegate {
 
 public enum ComandsRunerError: Error {
     case ComandsRunerFailed(reason: String)
-    //    case spellNotKnownToWitch
 }
+
+
 
 
 public class ComandsRuner {
@@ -52,16 +53,118 @@ public class ComandsRuner {
         var isOk:Bool = false
         
         switch comand {
+        // ----------------------- FIREWALL -----------------------
         case ComandType.fireWallState.rawValue:
              praser = StatePraser()
              print("fireWallState")
              isOk = true
              comandForRun = FireWallState(withId:comandsRunerId)
- 
             
+        case ComandType.fireWallStart.rawValue:
+            praser = GenericPraser()
+            print("fireWallStart")
+            isOk = true
+            comandForRun =  FireWallStart(withId: comandsRunerId)
+            
+        case ComandType.fireWallStop.rawValue:
+            praser = GenericPraser()
+            print("fireWallStop")
+            isOk = true
+            comandForRun =  FireWallStop(withId: comandsRunerId)
+            
+        case ComandType.fireWallBadHosts.rawValue:
+            print("fireWallBadHosts")
+            comandForRun =  MtRoute(withIp:"192.168.8.1", withId:comandsRunerId)
+            isOk = true
+        case ComandType.addFireWallBadHosts.rawValue:
+            print("addFireWallBadHosts")
+            comandForRun =  MtRoute(withIp:"192.168.8.1", withId:comandsRunerId)
+            isOk = true
+        case ComandType.deleteFireWallBadHosts.rawValue:
+            print("deleteFireWallBadHosts")
+            comandForRun =  MtRoute(withIp:"192.168.8.1", withId:comandsRunerId)
+            isOk = true
+        case ComandType.blockIp.rawValue:
+            print("blockIp")
+            comandForRun =  MtRoute(withIp:"192.168.8.1", withId:comandsRunerId)
+            isOk = true
+            
+            
+        // ----------------------- INFO -----------------------
         case ComandType.mtRoute.rawValue:
+            praser = GenericPraser()
             print("mtRoute")
             comandForRun =  MtRoute(withIp:"192.168.8.1", withId:comandsRunerId)
+            isOk = true
+        case ComandType.nsLookup .rawValue:
+            praser = GenericPraser()
+            print("nsLookup")
+            comandForRun =  NsLookup(withIp:"192.168.8.1")
+            isOk = true
+        case ComandType.ping.rawValue:
+            praser = GenericPraser()
+            print("ping")
+            comandForRun = GenericComand(type:.ping, taskPath:"/usr/bin/ping", taskArgs:["192.168.8.1"])
+            isOk = true
+         case ComandType.traceRoute.rawValue:
+            praser = GenericPraser()
+            print("traceRoute")
+            comandForRun =  TraceRoute(withIp:"192.168.8.1")
+            isOk = true
+        case ComandType.whois.rawValue:
+            praser = GenericPraser()
+            print("whois")
+            comandForRun =  Whois(withIp:"192.168.8.1")
+            isOk = true
+        case ComandType.dig.rawValue:
+            praser = GenericPraser()
+            print("dig")
+            comandForRun =  GenericComand(type:.dig, taskPath:"/usr/bin/dig", taskArgs:["192.168.8.1"])
+            isOk = true
+        case ComandType.history.rawValue:
+            praser = GenericPraser()
+            print("history")
+            comandForRun =  GenericComand(type:.history, taskPath:"/usr/bin/history", taskArgs:["192.168.8.1"])
+            isOk = true
+        case ComandType.ports_Services.rawValue:
+            praser = GenericPraser()
+            print("ports_Services")
+            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/bin/nmap", taskArgs:["192.168.8.1"])
+            isOk = true
+            
+            
+            //  ----------------------- CONECTIONS -----------------------
+        case ComandType.netStat.rawValue:
+            praser = NetStatPraser()
+            print("netStat")
+            isOk = true
+            comandForRun =  NetStat()
+            
+        case ComandType.tcpDump.rawValue:
+            praser = GenericPraser()
+            print("tcpDump")
+            isOk = true
+            comandForRun =  TcpDumpCom()
+            
+            
+        //  ----------------------- CONECTIONS -----------------------
+         
+        case ComandType.conectionData.rawValue:
+            praser = GenericPraser()
+            print("conectionData")
+            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/bin/nmap", taskArgs:["192.168.8.1"])
+            isOk = true
+            
+            //  ----------------------- GENERICS -----------------------
+        case ComandType.genericComand.rawValue:
+            praser = GenericPraser()
+            print("genericComand")
+            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/bin/nmap", taskArgs:["192.168.8.1"])
+            isOk = true
+        case ComandType.generic.rawValue:
+            praser = GenericPraser()
+            print("generic")
+            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/bin/nmap", taskArgs:["192.168.8.1"])
             isOk = true
         default:
             print("no")

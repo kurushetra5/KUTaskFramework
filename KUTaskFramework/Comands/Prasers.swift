@@ -41,7 +41,7 @@ struct StatePraser:Prasable   {
 }
 
 
-struct netStatPraser:Prasable   {
+struct NetStatPraser:Prasable   {
     
     
     func prase(comandResult:String) -> Any {
