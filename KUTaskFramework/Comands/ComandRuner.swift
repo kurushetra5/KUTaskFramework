@@ -47,7 +47,7 @@ public class ComandsRuner {
     
     
     
-    public static func run(comand:String, args:String!, forEver:Bool, completion:@escaping (String) -> Void) {
+    public static func run(comand:String, args:String!, forEver:Bool, completion:@escaping (String) -> Void) { //FIXME: separar en varias func
         
         var ip:String = "0.0.0.0" //TODO: cambiar ???
         var comandForRun:Comand!
@@ -136,20 +136,20 @@ public class ComandsRuner {
         case ComandType.dig.rawValue:
             praser = GenericPraser()
             print("dig")
-            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
+            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "/usr/bin/dig", taskArgs:[ip])
             isOk = true
             
         case ComandType.history.rawValue:
             praser = GenericPraser()
             print("history")
-            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
+            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "/bin/pwd", taskArgs:["-L"])
             isOk = true
             
         case ComandType.ports_Services.rawValue:
             praser = GenericPraser()
             print("ports_Services")
-            comandForRun =  GenericComandId(withId:  comandsRunerId, praser: praser)
-            isOk = true
+//            comandForRun =  GenericComandId(withId:  comandsRunerId, praser: praser) //FIXME:no asi
+//            isOk = true
             
             
         //  ----------------------- CONECTIONS -----------------------
@@ -157,21 +157,20 @@ public class ComandsRuner {
             praser = NetStatPraser()
             print("netStat")
             isOk = true
-            comandForRun =  NetStat(praser: praser, type:.netStat, taskPath: "", taskArgs: [""])
+            comandForRun =  NetStat(praser: praser, type:.netStat, taskPath: "", taskArgs: [""])  //FIXME:no asi
             
         case ComandType.tcpDump.rawValue:
             praser = GenericPraser()
             print("tcpDump")
             isOk = true
-            comandForRun =  TcpDumpCom(praser: praser, type:.netStat, ip:ip, taskPath: "", taskArgs: [""])
-            
+            comandForRun =  TcpDumpCom(withIp:ip, praser: praser)
             
             //  ----------------------- CONECTIONS -----------------------
             
         case ComandType.conectionData.rawValue:
             praser = GenericPraser()
             print("conectionData")
-            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
+            comandForRun = TcpDumpCom(withIp:ip, praser: praser)
             isOk = true
             
             
@@ -195,7 +194,7 @@ public class ComandsRuner {
             isOk = true
             
          default:
-            print("no")
+            print("public static func run(comand:String,... Switch Default")
             isOk = false
             
         }
