@@ -60,10 +60,10 @@ public class ComandsRuner {
         switch comand {
         // ----------------------- FIREWALL -----------------------
         case ComandType.fireWallState.rawValue:
-             praser = StatePraser()
-             print("fireWallState")
-             isOk = true
-             comandForRun = FireWallState(withId:comandsRunerId)
+            praser = StatePraser()
+            print("fireWallState")
+            isOk = true
+            comandForRun = FireWallState(withId:comandsRunerId)
             
         case ComandType.fireWallStart.rawValue:
             praser = GenericPraser()
@@ -121,7 +121,7 @@ public class ComandsRuner {
             comandForRun = GenericComand(type:.ping, taskPath:"/usr/bin/ping", taskArgs:[ip])
             isOk = true
             
-         case ComandType.traceRoute.rawValue:
+        case ComandType.traceRoute.rawValue:
             praser = GenericPraser()
             print("traceRoute")
             comandForRun =  TraceRoute(withIp:ip)
@@ -152,7 +152,7 @@ public class ComandsRuner {
             isOk = true
             
             
-            //  ----------------------- CONECTIONS -----------------------
+        //  ----------------------- CONECTIONS -----------------------
         case ComandType.netStat.rawValue:
             praser = NetStatPraser()
             print("netStat")
@@ -166,15 +166,16 @@ public class ComandsRuner {
             comandForRun =  TcpDumpCom()
             
             
-        //  ----------------------- CONECTIONS -----------------------
-         
+            //  ----------------------- CONECTIONS -----------------------
+            
         case ComandType.conectionData.rawValue:
             praser = GenericPraser()
             print("conectionData")
             comandForRun =  GenericComand(type:.conectionData, taskPath:"/usr/bin/tcpdump", taskArgs:[ip])
             isOk = true
             
-            //  ----------------------- GENERICS -----------------------
+            
+        //  ----------------------- GENERICS -----------------------
         case ComandType.genericComand.rawValue:
             praser = GenericPraser()
             print("genericComand")
@@ -182,12 +183,18 @@ public class ComandsRuner {
             isOk = true
             
         case ComandType.generic.rawValue:
-            praser = GenericPraser()
-            print("generic")
-            comandForRun =  GenericComand(type:.generic, taskPath:"/usr/bin/ls", taskArgs:[ip])
-            isOk = true
             
-        default:
+            if praser != nil {
+                print("generic praser OK Set")
+                comandForRun =  GenericComand(type:.generic, taskPath:"/usr/bin/ls", taskArgs:[ip])
+                isOk = true
+            }else {
+                praser = GenericPraser()
+                print("generic praser NOT Set")
+            }
+ 
+            
+         default:
             print("no")
             isOk = false
             
@@ -196,10 +203,10 @@ public class ComandsRuner {
         
         if isOk {
             run(comand:comandForRun  , forEver: forEver) { (result) in
-            print(result)
-        
-            completion(self.praser.prase(comandResult:result) as! String)
-        }
+                print(result)
+                
+                completion(self.praser.prase(comandResult:result) as! String)
+            }
         } else {
             print("The comand is not indexed yet ... run(comand")
         }
@@ -244,7 +251,7 @@ public class ComandsRuner {
         let task = Process()
         task.launchPath = comand.taskPath
         task.arguments = comand.taskArgs
-//        task.arguments = comand.taskArgs
+        //        task.arguments = comand.taskArgs
         task.standardOutput = Pipe()
         
         task.terminationHandler = { task in
