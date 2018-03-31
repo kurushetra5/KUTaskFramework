@@ -121,7 +121,8 @@ struct GenericComand:Comand  {
 //    var comandRunerId: String = ""
     var type: ComandType = .generic
     var taskPath:String =  ""
-    var taskArgs:[String] = []
+    var taskArgs:[String] = [] //FIXME: Aqui creo que falta que se pongan los parametros
+    
     
 }
 

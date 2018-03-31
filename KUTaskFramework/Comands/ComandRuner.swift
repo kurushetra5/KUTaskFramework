@@ -118,7 +118,7 @@ public class ComandsRuner {
         case ComandType.ping.rawValue:
             praser = GenericPraser()
             print("ping")
-            comandForRun = GenericComand(type:.ping, taskPath:"/usr/bin/ping", taskArgs:[ip])
+            comandForRun = GenericComand(type:.ping, taskPath:"/sbin/ping", taskArgs:[ip])
             isOk = true
             
         case ComandType.traceRoute.rawValue:
@@ -142,13 +142,13 @@ public class ComandsRuner {
         case ComandType.history.rawValue:
             praser = GenericPraser()
             print("history")
-            comandForRun =  GenericComand(type:.history, taskPath:"/usr/bin/history", taskArgs:[ip])
+            comandForRun =  GenericComand(type:.history, taskPath:"/bin/pwd", taskArgs:[ip])
             isOk = true
             
         case ComandType.ports_Services.rawValue:
             praser = GenericPraser()
             print("ports_Services")
-            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/bin/nmap", taskArgs:[ip])
+            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/local/bin/nmap", taskArgs:[ip])
             isOk = true
             
             
@@ -171,7 +171,7 @@ public class ComandsRuner {
         case ComandType.conectionData.rawValue:
             praser = GenericPraser()
             print("conectionData")
-            comandForRun =  GenericComand(type:.conectionData, taskPath:"/usr/bin/tcpdump", taskArgs:[ip])
+            comandForRun =  GenericComand(type:.conectionData, taskPath:"/usr/sbin/tcpdump", taskArgs:[ip])
             isOk = true
             
             
@@ -179,14 +179,14 @@ public class ComandsRuner {
         case ComandType.genericComand.rawValue:
             praser = GenericPraser()
             print("genericComand")
-            comandForRun =  GenericComand(type:.genericComand, taskPath:"/usr/bin/pwd", taskArgs:[ip])
+            comandForRun =  GenericComand(type:.genericComand, taskPath:"/bin/pwd", taskArgs:[ip])
             isOk = true
             
         case ComandType.generic.rawValue:
             
             if praser != nil {
                 print("generic praser OK Set")
-                comandForRun =  GenericComand(type:.generic, taskPath:"/usr/bin/ls", taskArgs:[ip])
+                comandForRun =  GenericComand(type:.generic, taskPath:"/bin/ls", taskArgs:[ip])
                 isOk = true
             }else {
                 praser = GenericPraser()
