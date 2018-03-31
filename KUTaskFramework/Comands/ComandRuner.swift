@@ -265,7 +265,9 @@ public class ComandsRuner {
                 let s = String(data: data, encoding: .utf8)
                 else { return }
             
-            let dataResult = s.components(separatedBy: "\n").filter{ !$0.contains("/.git/") }
+            let dataResult = s.components(separatedBy: "\n")
+            
+        
             
             DispatchQueue.main.sync {
                 completion(dataResult,comand.type)
