@@ -10,7 +10,7 @@ import Foundation
 
 
 
-protocol ComandsRunerDelegate {
+public protocol ComandsRunerDelegate {
     func finish(comand:ComandType, withResult result:[String])
 }
 
@@ -47,14 +47,14 @@ public class ComandsRuner {
     
     
     
-    public static func run(comand:String, toIp:String!, forEver:Bool, completion:@escaping (String) -> Void) {
+    public static func run(comand:String, args:String!, forEver:Bool, completion:@escaping (String) -> Void) {
         
         var ip:String = "0.0.0.0" //TODO: cambiar ???
         var comandForRun:Comand!
         var isOk:Bool = false
         
-        if toIp != nil {
-            ip = toIp
+        if args != nil {
+            ip = args
         }
         
         switch comand {
@@ -118,7 +118,7 @@ public class ComandsRuner {
         case ComandType.ping.rawValue:
             praser = GenericPraser()
             print("ping")
-            comandForRun = GenericComand(type:.ping, taskPath:"/sbin/ping", taskArgs:[ip])
+            comandForRun = GenericComand(type:.ping, taskPath:"/sbin/ping", taskArgs:[ip]) //TODO: mirar si funciona
             isOk = true
             
         case ComandType.traceRoute.rawValue:
@@ -186,13 +186,13 @@ public class ComandsRuner {
             
             if praser != nil {
                 print("generic praser OK Set")
-                comandForRun =  GenericComand(type:.generic, taskPath:"/bin/ls", taskArgs:[ip])
-                isOk = true
+                
             }else {
                 praser = GenericPraser()
                 print("generic praser NOT Set")
             }
- 
+            comandForRun =  GenericComand(type:.generic, taskPath:comand, taskArgs:[ip])
+            isOk = true
             
          default:
             print("no")

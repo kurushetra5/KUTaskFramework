@@ -11,7 +11,7 @@ import Foundation
 
 
 
-enum ComandType:String {
+public enum ComandType:String {
     case tcpDump,traceRoute,mtRoute,whois,nsLookup,blockIp,netStat,fireWallState,fireWallBadHosts,addFireWallBadHosts,deleteFireWallBadHosts,fireWallStop,fireWallStart,genericComand,dig,history,ports_Services,ping,conectionData,generic
 }
 
