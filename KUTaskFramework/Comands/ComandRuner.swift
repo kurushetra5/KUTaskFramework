@@ -29,7 +29,7 @@ public class ComandsRuner {
     public static var comandsRunerId:String!
     
     
-    var comandsRunerDelegate:ComandsRunerDelegate!
+    public static var comandsRunerDelegate:ComandsRunerDelegate!
     static var comand1:Comand!
     static var comand2:Comand!
     static var praser:Prasable!
@@ -223,7 +223,7 @@ public class ComandsRuner {
             
             if timer  == nil {
                 comand1 = comand
-                timerStart()
+                 ComandsRuner().timerStart()
             }else if timer != nil {
                 comand2 = comand
                 timerStart2()
@@ -286,9 +286,9 @@ public class ComandsRuner {
     
     
     
-    static func timerStart() {
+  public   func timerStart() {
         
-        timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
+    ComandsRuner.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
         print("timerStart()")
         
     }
@@ -305,12 +305,12 @@ public class ComandsRuner {
     
     
     
-    @objc func timerAction() {
+  @objc func timerAction() {
         print("timer Action()")
         
         
         ComandsRuner.run(comand:ComandsRuner.comand1) { (results, comand) in
-            self.comandsRunerDelegate?.finish(comand:comand, withResult:results)
+            ComandsRuner.comandsRunerDelegate?.finish(comand:comand, withResult:results)
         }
         
         
@@ -323,7 +323,7 @@ public class ComandsRuner {
         print("timer Action2()")
         
         ComandsRuner.run(comand:ComandsRuner.comand2) { (results, comand) in
-            self.comandsRunerDelegate?.finish(comand:comand, withResult:results)
+            ComandsRuner.comandsRunerDelegate?.finish(comand:comand, withResult:results)
         }
         
         
