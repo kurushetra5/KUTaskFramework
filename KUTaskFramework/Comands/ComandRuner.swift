@@ -63,42 +63,42 @@ public class ComandsRuner {
             praser = StatePraser()
             print("fireWallState")
             isOk = true
-            comandForRun = FireWallState(withId:comandsRunerId)
+            comandForRun = FireWallState(withId:comandsRunerId, praser: praser)
             
         case ComandType.fireWallStart.rawValue:
             praser = GenericPraser()
             print("fireWallStart")
             isOk = true
-            comandForRun =  FireWallStart(withId: comandsRunerId)
+            comandForRun =  FireWallStart(withId: comandsRunerId, praser: praser)
             
         case ComandType.fireWallStop.rawValue:
             praser = GenericPraser()
             print("fireWallStop")
             isOk = true
-            comandForRun =  FireWallStop(withId: comandsRunerId)
+            comandForRun =  FireWallStop(withId: comandsRunerId, praser: praser)
             
         case ComandType.fireWallBadHosts.rawValue:
             praser = badHostsPraser()
             print("fireWallBadHosts")
-            comandForRun = FireWallBadHosts(withId:comandsRunerId)
+            comandForRun = FireWallBadHosts(withId:comandsRunerId, praser: praser)
             isOk = true
             
         case ComandType.addFireWallBadHosts.rawValue:
             praser = GenericPraser()
             print("addFireWallBadHosts")
-            comandForRun =  AddFireWallBadHosts(withIp:ip, withId: comandsRunerId)
+            comandForRun =  AddFireWallBadHosts(withId: comandsRunerId, withIp:ip, praser: praser)
             isOk = true
             
         case ComandType.deleteFireWallBadHosts.rawValue:
             praser = GenericPraser()
             print("deleteFireWallBadHosts")
-            comandForRun =  DeleteFireWallBadHosts(withIp:ip, withId:comandsRunerId)
+            comandForRun =  DeleteFireWallBadHosts(withId:comandsRunerId, withIp:ip, praser: praser)
             isOk = true
             
         case ComandType.blockIp.rawValue:
             praser = GenericPraser()
             print("blockIp")
-            comandForRun =  GenericComand(type:.ping, taskPath:"/usr/bin/block", taskArgs:[ip])
+            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
             isOk = true
             
             
@@ -106,49 +106,49 @@ public class ComandsRuner {
         case ComandType.mtRoute.rawValue:
             praser = GenericPraser()
             print("mtRoute")
-            comandForRun =  MtRoute(withIp:ip, withId:comandsRunerId)
+            comandForRun =  MtRoute(withId:comandsRunerId, withIp:ip, praser: praser)
             isOk = true
             
         case ComandType.nsLookup .rawValue:
             praser = GenericPraser()
             print("nsLookup")
-            comandForRun =  NsLookup(withIp:ip)
+            comandForRun =  NsLookup(withIp:ip, praser: praser)
             isOk = true
             
         case ComandType.ping.rawValue:
             praser = GenericPraser()
             print("ping")
-            comandForRun = GenericComand(type:.ping, taskPath:"/sbin/ping", taskArgs:[ip]) //TODO: mirar si funciona
+            comandForRun = GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
             isOk = true
             
         case ComandType.traceRoute.rawValue:
             praser = GenericPraser()
             print("traceRoute")
-            comandForRun =  TraceRoute(withIp:ip)
+            comandForRun =  TraceRoute(withIp:ip, praser: praser)
             isOk = true
             
         case ComandType.whois.rawValue:
             praser = GenericPraser()
             print("whois")
-            comandForRun =  Whois(withIp:ip)
+            comandForRun =  Whois(withIp:ip, praser: praser)
             isOk = true
             
         case ComandType.dig.rawValue:
             praser = GenericPraser()
             print("dig")
-            comandForRun =  GenericComand(type:.dig, taskPath:"/usr/bin/dig", taskArgs:[ip])
+            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
             isOk = true
             
         case ComandType.history.rawValue:
             praser = GenericPraser()
             print("history")
-            comandForRun =  GenericComand(type:.history, taskPath:"/bin/pwd", taskArgs:[ip])
+            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
             isOk = true
             
         case ComandType.ports_Services.rawValue:
             praser = GenericPraser()
             print("ports_Services")
-            comandForRun =  GenericComand(type:.ports_Services, taskPath:"/usr/local/bin/nmap", taskArgs:[ip])
+            comandForRun =  GenericComandId(withId:  comandsRunerId, praser: praser)
             isOk = true
             
             
@@ -157,13 +157,13 @@ public class ComandsRuner {
             praser = NetStatPraser()
             print("netStat")
             isOk = true
-            comandForRun =  NetStat()
+            comandForRun =  NetStat(praser: praser, type:.netStat, taskPath: "", taskArgs: [""])
             
         case ComandType.tcpDump.rawValue:
             praser = GenericPraser()
             print("tcpDump")
             isOk = true
-            comandForRun =  TcpDumpCom()
+            comandForRun =  TcpDumpCom(praser: praser, type:.netStat, ip:ip, taskPath: "", taskArgs: [""])
             
             
             //  ----------------------- CONECTIONS -----------------------
@@ -171,7 +171,7 @@ public class ComandsRuner {
         case ComandType.conectionData.rawValue:
             praser = GenericPraser()
             print("conectionData")
-            comandForRun =  GenericComand(type:.conectionData, taskPath:"/usr/sbin/tcpdump", taskArgs:[ip])
+            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
             isOk = true
             
             
@@ -179,7 +179,7 @@ public class ComandsRuner {
         case ComandType.genericComand.rawValue:
             praser = GenericPraser()
             print("genericComand")
-            comandForRun =  GenericComand(type:.genericComand, taskPath:"/bin/pwd", taskArgs:[ip])
+            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
             isOk = true
             
         case ComandType.generic.rawValue:
@@ -191,7 +191,7 @@ public class ComandsRuner {
                 praser = GenericPraser()
                 print("generic praser NOT Set")
             }
-            comandForRun =  GenericComand(type:.generic, taskPath:comand, taskArgs:[ip])
+            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
             isOk = true
             
          default:

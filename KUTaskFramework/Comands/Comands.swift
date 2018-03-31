@@ -15,7 +15,27 @@ public enum ComandType:String {
     case tcpDump,traceRoute,mtRoute,whois,nsLookup,blockIp,netStat,fireWallState,fireWallBadHosts,addFireWallBadHosts,deleteFireWallBadHosts,fireWallStop,fireWallStart,genericComand,dig,history,ports_Services,ping,conectionData,generic
 }
 
-protocol Comand  {
+protocol Praserable {
+    var praser:Prasable {get set}
+}
+
+
+protocol ComandPraserable:Comand,Praserable {
+    init(praser:Prasable)
+}
+protocol ComandIpPraserable:ComandIp,Praserable {
+    init(withIp:String,praser:Prasable)
+}
+protocol ComandIdPraserable:ComandRunerId,Praserable {
+    init(withId:String,praser:Prasable)
+}
+protocol ComandIdIpPraserable:ComandRunerId,ComandIp ,Praserable {
+    init(withId:String,withIp:String, praser:Prasable)
+}
+
+
+
+protocol Comand   {
     var taskPath:String{get set}
     var taskArgs:[String]{get set}
     var type:ComandType{get set}
@@ -25,7 +45,7 @@ protocol Comand  {
 
 protocol ComandIp:Comand  {
     var ip:String{get set}
-    init(withIp:String)
+//    init(withIp:String)
     mutating func addIp()
 }
 
@@ -34,7 +54,7 @@ protocol ComandIp:Comand  {
 
 protocol ComandRunerId {
     var comandRunerId:String{get set}
-     init(withId:String)
+//     init(withId:String)
     mutating func addId()
 }
 
@@ -117,24 +137,42 @@ struct NetStatConection  {
 
 
 //MARK: -------------------------------- GENERIC--------------------------------
-struct GenericComand:Comand  {
+struct GenericComand:Comand   {
+    
+    
+    var praser: Prasable
+    
 //    var comandRunerId: String = ""
     var type: ComandType = .generic
     var taskPath:String =  ""
     var taskArgs:[String] = [] //FIXME: Aqui creo que falta que se pongan los parametros
     
+//    init(praser: Prasable) {
+//        self.praser = praser
+//    }
     
 }
 
 
-struct GenericComandIp:ComandIp  {
+struct GenericComandIp:ComandIpPraserable  {
+    
+//    init(withIp: String) {
+//        self.ip = withIp
+//
+//        addIp()
+//    }
+    
+    var praser: Prasable
     var ip: String
+    
     var type: ComandType = .generic
     var taskPath:String =  ""
     var taskArgs:[String] = []
     
-    init(withIp:String) {
+    init(withIp:String, praser:Prasable) {
+        self.praser = praser
         self.ip = withIp
+
         addIp()
     }
     
@@ -145,23 +183,40 @@ struct GenericComandIp:ComandIp  {
 }
 
 
-struct GenericComandId:Comand,ComandRunerId  {
+struct GenericComandId:Comand,ComandIdPraserable  {
+    
+    
+    var praser: Prasable
+    
     
     var comandRunerId: String = ""
     var type: ComandType = .generic
     var taskPath:String =  ""
     var taskArgs:[String] = []
     
-    init(withId: String) {
+    init(withId: String, praser: Prasable) {
+        self.praser = praser
         self.comandRunerId = withId
         addId()
     }
+//    init(withId: String) {
+//        self.comandRunerId = withId
+//        addId()
+//    }
     
     
 }
 
 
-struct GenericComandIpId:ComandIpId {
+struct GenericComandIpId:ComandIdIpPraserable {
+    
+    
+    func addIp() {
+        
+    }
+    
+    var praser: Prasable
+    
     
     
     var comandRunerId: String
@@ -170,12 +225,20 @@ struct GenericComandIpId:ComandIpId {
     var taskPath:String =  ""
     var taskArgs:[String] = []
     
-    init(withIp: String, withId: String) {
+    init(withId: String, withIp: String, praser: Prasable) {
+        self.praser = praser
         self.ip = withIp
         self.comandRunerId = withId
         addId()
         addIp()
     }
+    
+//    init(withIp: String, withId: String) {
+//        self.ip = withIp
+//        self.comandRunerId = withId
+//        addId()
+//        addIp()
+//    }
 }
 
 
@@ -184,11 +247,14 @@ struct GenericComandIpId:ComandIpId {
 
 //MARK: -------------------------------- CONECTIONS --------------------------------
 struct NetStat:Comand  {
+    var praser: Prasable
+    
 //    var comandRunerId: String = ""
     var type: ComandType = .netStat
     
     var taskPath:String =  "/bin/sh"
     var taskArgs:[String] = ["-c" , "netstat -an  | grep ESTABLISHED"]
+    
     
 }
 
@@ -198,6 +264,8 @@ struct NetStat:Comand  {
 
 //MARK: -------------------------------- INFO COMANDS --------------------------------
 struct TcpDumpCom:Comand {
+    var praser: Prasable
+    
 //    var comandRunerId: String = ""
     var type: ComandType = .tcpDump
     
@@ -214,7 +282,11 @@ struct TcpDumpCom:Comand {
 
 
 
-struct TraceRoute:ComandIp {
+struct TraceRoute:ComandIpPraserable {
+    
+    
+    var praser: Prasable
+    
     
 //    var comandRunerId: String = ""
     var type: ComandType = .traceRoute
@@ -224,10 +296,16 @@ struct TraceRoute:ComandIp {
     var taskArgs:[String] = ["-w 1" , "-m30" ,"???"]
     //    var fileUrl:URL = URL(fileURLWithPath:"/Users/kurushetra/Desktop/traceRoute.txt")
     
-    init(withIp:String) {
+    init(withIp: String, praser: Prasable) {
+        self.praser = praser
         self.ip = withIp
         addIp()
     }
+    
+//    init(withIp:String) {
+//        self.ip = withIp
+//        addIp()
+//    }
     
     mutating func addIp() {
         self.taskArgs[2] = self.ip
@@ -237,7 +315,9 @@ struct TraceRoute:ComandIp {
 
 
 
-struct NsLookup:ComandIp {
+struct NsLookup:ComandIpPraserable {
+    var praser: Prasable
+    
 //    var comandRunerId: String = ""
     var type: ComandType = .nsLookup
     
@@ -246,10 +326,16 @@ struct NsLookup:ComandIp {
     var taskArgs:[String] = []
     //    var fileUrl:URL = URL(fileURLWithPath:"/Users/kurushetra/Desktop/traceRoute.txt")
     
-    init(withIp:String) {
+    init(withIp: String, praser: Prasable) {
+        self.praser = praser
         self.ip = withIp
         addIp()
     }
+    
+//    init(withIp:String) {
+//        self.ip = withIp
+//        addIp()
+//    }
     
     mutating func addIp() {
         self.taskArgs = [self.ip]
@@ -257,7 +343,9 @@ struct NsLookup:ComandIp {
 }
 
 
-struct Whois:ComandIp {
+struct Whois:ComandIpPraserable {
+    var praser: Prasable
+    
 //    var comandRunerId: String = ""
     var type: ComandType = .whois
     
@@ -266,7 +354,8 @@ struct Whois:ComandIp {
     var taskArgs:[String] = []
     //    var fileUrl:URL = URL(fileURLWithPath:"/Users/kurushetra/Desktop/traceRoute.txt")
     
-    init(withIp:String) {
+    init(withIp: String, praser: Prasable) {
+        self.praser = praser
         self.ip = withIp
         addIp()
     }
@@ -277,7 +366,11 @@ struct Whois:ComandIp {
 }
 
 
-struct MtRoute:ComandIpId {
+struct MtRoute:ComandIdIpPraserable {
+    
+    
+    var praser: Prasable
+    
  
     var comandRunerId: String = ""
     var type: ComandType = .mtRoute
@@ -288,13 +381,25 @@ struct MtRoute:ComandIpId {
     var taskArgs:[String] = ["-c" , "echo ¿¿¿ | sudo -S  ./mtr -rw -n ??? | awk '{print $2}'"] //FIXME: ruta de mtr no es esta
     //    var fileUrl:URL = URL(fileURLWithPath:"/Users/kurushetra/Desktop/traceRoute.txt")
     
-    init(withIp:String, withId:String) {
+//    init(withIp:String, withId:String) {
+//         self.ip = withIp
+//         self.comandRunerId = withId
+//         addId()
+//         addIp()
+//    }
+    
+    
+    init(withId: String, withIp: String, praser: Prasable) {
+        self.praser = praser
         self.ip = withIp
         self.comandRunerId = withId
         addId()
         addIp()
     }
     
+    func addIp() {
+     
+    }
  
 }
 
@@ -302,7 +407,11 @@ struct MtRoute:ComandIpId {
 
 
 //MARK: -------------------------------- FIREWALL --------------------------------
-struct FireWallStart:Comand, ComandRunerId  {
+struct FireWallStart:Comand, ComandIdPraserable  {
+    
+    
+    var praser: Prasable
+    
     
     
     
@@ -312,10 +421,15 @@ struct FireWallStart:Comand, ComandRunerId  {
     var taskPath:String =  "/bin/sh"
     var taskArgs:[String] = ["-c" , "echo ¿¿¿ | sudo -S pfctl -e -f  /etc/pf.conf"]
     
-    init(withId: String) {
+    init(withId: String, praser: Prasable) {
+        self.praser = praser
         self.comandRunerId = withId
         addId()
     }
+//    init(withId: String) {
+//        self.comandRunerId = withId
+//        addId()
+//    }
     
     
 //    mutating func addId() {
@@ -328,7 +442,9 @@ struct FireWallStart:Comand, ComandRunerId  {
 }
 
 
-struct FireWallStop:Comand,ComandRunerId  {
+struct FireWallStop:Comand,ComandIdPraserable  {
+    var praser: Prasable
+    
     
     var comandRunerId: String = ""
     var type: ComandType = .fireWallStop
@@ -336,30 +452,45 @@ struct FireWallStop:Comand,ComandRunerId  {
     var taskPath:String =  "/bin/sh"
     var taskArgs:[String] = ["-c" , "echo ¿¿¿ | sudo -S  pfctl -d"]
     
-    init(withId: String) {
+    init(withId: String, praser: Prasable) {
+        self.praser = praser
         self.comandRunerId = withId
         addId()
     }
+    
+//    init(withId: String) {
+//        self.comandRunerId = withId
+//        addId()
+//    }
 }
 
 
 
-struct FireWallState:Comand, ComandRunerId  {
+struct FireWallState:Comand, ComandIdPraserable  {
+    var praser: Prasable
+    
     var comandRunerId: String = ""
     var type: ComandType = .fireWallState
     
     var taskPath:String =  "/bin/sh"
     var taskArgs:[String] = ["-c" , "echo ¿¿¿ | sudo -S pfctl  -s info | grep Status"]
     
-    init(withId:String) {
+    init(withId: String, praser: Prasable) {
+        self.praser = praser
         self.comandRunerId = withId
         addId()
     }
+//    init(withId:String) {
+//        self.comandRunerId = withId
+//        addId()
+//    }
 }
 
 
 
-struct FireWallBadHosts:Comand, ComandRunerId  {
+struct FireWallBadHosts:Comand, ComandIdPraserable  {
+    var praser: Prasable
+    
     
     var comandRunerId: String = ""
     var type: ComandType = .fireWallBadHosts
@@ -367,14 +498,17 @@ struct FireWallBadHosts:Comand, ComandRunerId  {
     var taskPath:String =  "/bin/sh"
     var taskArgs:[String] = ["-c" , "echo ¿¿¿ | sudo -S pfctl -t badhosts -T show"]
     
-    init(withId:String) {
+    init(withId: String, praser: Prasable) {
+        self.praser = praser
         self.comandRunerId = withId
         addId()
     }
 }
 
 
-struct AddFireWallBadHosts:ComandIpId   {
+struct AddFireWallBadHosts:ComandIdIpPraserable   {
+    var praser: Prasable
+    
     
     var comandRunerId: String = ""
     var type: ComandType = .addFireWallBadHosts
@@ -384,7 +518,8 @@ struct AddFireWallBadHosts:ComandIpId   {
     var taskPath:String =  "/bin/sh"
     var taskArgs:[String] = ["-c" , "echo ¿¿¿ | sudo -S pfctl  -t badhosts -T add ???"]
     
-    init(withIp:String, withId:String) {
+    init(withId: String, withIp: String, praser: Prasable) {
+        self.praser = praser
         self.ip = withIp
         self.comandRunerId = withId
         addId()
@@ -396,16 +531,18 @@ struct AddFireWallBadHosts:ComandIpId   {
 //        addIp()
 //    }
 //
-//    mutating func addIp() {
-//        let comand:String = taskArgs[1]
-//        let comandWithIp:String = comand.replacingOccurrences(of:"???", with:self.ip)
-//        self.taskArgs[1] = comandWithIp
-//
-//    }
+    mutating func addIp() {
+        let comand:String = taskArgs[1]
+        let comandWithIp:String = comand.replacingOccurrences(of:"???", with:self.ip)
+        self.taskArgs[1] = comandWithIp
+
+    }
 }
 
 
-struct DeleteFireWallBadHosts:ComandIpId  {
+struct DeleteFireWallBadHosts:ComandIdIpPraserable  {
+    var praser: Prasable
+    
     var comandRunerId: String = ""
     var type: ComandType = .deleteFireWallBadHosts
     
@@ -414,7 +551,8 @@ struct DeleteFireWallBadHosts:ComandIpId  {
     var taskPath:String =  "/bin/sh"
     var taskArgs:[String] = ["-c" , "echo ¿¿¿ | sudo -S pfctl  -t badhosts -T delete ???"]
     
-    init(withIp:String, withId:String) {
+    init(withId: String, withIp: String, praser: Prasable) {
+        self.praser = praser
         self.ip = withIp
         self.comandRunerId = withId
         addId()
@@ -425,10 +563,10 @@ struct DeleteFireWallBadHosts:ComandIpId  {
 //        addIp()
 //    }
 //
-//    mutating func addIp() {
-//        let comand:String = taskArgs[1]
-//        let comandWithIp:String = comand.replacingOccurrences(of:"???", with:self.ip)
-//        self.taskArgs[1] = comandWithIp
-//
-//    }
+    mutating func addIp() {
+        let comand:String = taskArgs[1]
+        let comandWithIp:String = comand.replacingOccurrences(of:"???", with:self.ip)
+        self.taskArgs[1] = comandWithIp
+
+    }
 }
