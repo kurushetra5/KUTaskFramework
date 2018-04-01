@@ -16,6 +16,136 @@ public enum ComandType:String {
 }
 
 
+public enum CustomComand  {
+    
+    case custom(praser:Prasable,taskPath:String,taskArgs:[String])
+    
+    
+    public  func  comand() ->  Comand {
+        
+        var comand:Comand!
+        
+        switch self {
+        case .custom(let praser ,let path ,let args):
+            print("custom")
+            comand = GenericComand(praser: praser, type:.generic, taskPath: path, taskArgs: args)
+        }
+        return comand
+   }
+    
+}
+
+
+
+public enum NetInfoComands  {
+    
+    case  netStat
+    
+    case whois(ip:String)
+    case traceRoute(ip:String)
+    case nsLookup(ip:String)
+    case dig(ip:String)
+    case nmap(ip:String)
+    case ping(ip:String)
+    case tcpDump(ip:String)
+    case mtRoute(withId:String, ip:String)
+    
+    public  func  comand() ->  Comand {
+        
+        var comand:Comand!
+        
+        switch self {
+        case .whois(let ip):
+            print("whois to: \(ip)")
+            comand = Whois(withIp: ip, praser:GenericPraser())
+            
+        case .traceRoute(let ip):
+            print("traceRoute to: \(ip)")
+            comand =  TraceRoute(withIp:ip, praser: GenericPraser())
+            
+        case .dig(let ip):
+            print("dig to: \(ip)")
+             comand =  TraceRoute(withIp:ip, praser: GenericPraser())
+            
+        case .nsLookup(let ip):
+            print("nsLookup to: \(ip)")
+            comand =  NsLookup(withIp: ip, praser: GenericPraser())
+            
+         
+            
+        case .nmap(let ip):
+            print("nmap")
+            print("nmap to: \(ip) ")
+//            comand =  TraceRoute(withIp:ip, praser: GenericPraser())
+            
+        case .ping(let ip):
+            print("ping to: \(ip) ")
+            //comand =  TraceRoute(withIp:ip, praser: GenericPraser())
+            
+        case .tcpDump(let ip) :
+            print("tcpDump to: \(ip)")
+            comand = TcpDumpCom(withIp: ip, praser: GenericPraser())
+            
+        case .mtRoute(let id, let ip) :
+            print("mtRoute to: \(ip)")
+            comand = MtRoute(withId:id , withIp: ip, praser: GenericPraser())
+            
+         
+        case .netStat :
+            print("netStat")
+            comand = NetStat(praser:NetStatPraser())
+         
+         
+    }
+    return comand
+   }
+}
+
+
+
+
+public enum FireWallComands  {
+    
+    case  fireWallState(id:String)
+    case  fireWallBadHosts(id:String)
+    case  fireWallStart(id:String)
+    case  fireWallStop(id:String)
+    case  addFireWallBadHosts(id:String, ip:String)
+    case  deleteFireWallBadHosts(id:String, ip:String)
+    
+    public  func  comand() ->  Comand {
+        
+        var comand:Comand!
+        
+        switch self {
+        case .fireWallState(let id):
+            print("fireWallState")
+             comand =  FireWallState(withId:id, praser:StatePraser())
+            
+        case .fireWallBadHosts(let id):
+            print("fireWallBadHosts")
+             comand =  FireWallBadHosts(withId:id, praser: GenericPraser())
+        case .fireWallStart(let id):
+            print("fireWallStart")
+            comand =  FireWallStart(withId: id, praser: GenericPraser())
+            
+        case .fireWallStop(let id):
+            print("fireWallStop")
+             comand =  FireWallStop(withId: id, praser: GenericPraser())
+            
+        case .addFireWallBadHosts(let id,let ip):
+            print("addFireWallBadHosts")
+             comand =  AddFireWallBadHosts(withId: id, withIp:ip, praser: GenericPraser())
+            
+        case .deleteFireWallBadHosts(let id,let ip):
+            print("deleteFireWallBadHosts")
+             comand =  DeleteFireWallBadHosts(withId:id, withIp:ip, praser: GenericPraser())
+        }
+        return comand
+    }
+    
+}
+
 
 
 
@@ -41,7 +171,7 @@ protocol ComandIdIpPraserable:ComandRunerId,ComandIp ,Praserable {
 
 
 
-protocol Comand   {
+public  protocol Comand   {
     var taskPath:String{get set}
     var taskArgs:[String]{get set}
     var type:ComandType{get set}
@@ -87,6 +217,7 @@ protocol ComandIpId:ComandRunerId,ComandIp {
     
     init(withIp:String,withId:String)
 }
+
 
 extension ComandIpId    {
     //TODO: mirar si se pueden quitar los inits
