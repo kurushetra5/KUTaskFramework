@@ -22,18 +22,22 @@ public enum ComandsRunerError: Error {
 
 
 public class ComandsRuner {
-    
-    
-    public static var timer:Timer!
-    public static var timer2:Timer!
-    public static var comandsRunerId:String!
-    
-    
+//    
+//    public static var comandsRunerId:String!
     public static var comandsRunerDelegate:ComandsRunerDelegate!
-    static var comand1:Comand!
-    static var comand2:Comand!
-    static var praser:Prasable!
-//    static var forEverComandsRuning:[Comand] = []
+    
+    
+    static var timer:Timer! //TODO: Sobra ? dict de comandos corriendo con id de timer para pararlo
+    static var timer2:Timer!  //TODO: Sobra ? dict de comandos corriendo con id de timer para pararlo
+    static var comand1:Comand! //TODO: Sobra ? dict de comandos corriendo con id de timer para pararlo
+    static var comand2:Comand! //TODO: Sobra ? dict de comandos corriendo con id de timer para pararlo
+    static var praser:Prasable! //TODO: Sobra ? lo paso en el ennum
+    //    static var forEverComandsRuning:[Comand] = []
+    
+    
+    
+    
+     //MARK: ---------------------- PUBLIC API ---------------------------
     
     public static func setPraser(praser:Any)  throws  {
         
@@ -51,16 +55,16 @@ public class ComandsRuner {
         praser = GenericPraser()
         print("Generic")
         let comandForRun:Comand  = GenericComand(praser: praser, type:.generic, taskPath: comand, taskArgs:args)
- 
+        
         run(comand:comandForRun  , forEver:false) { (result) in
-                print(result)
-                completion(self.praser.prase(comandResult:result) as! String)
+            print(result)
+            completion(self.praser.prase(comandResult:result) as! String)
         }
         
     }
     
     
-     public static func run(comand:Comand, completion:@escaping (String) -> Void) {
+    public static func run(comand:Comand, completion:@escaping (String) -> Void) {
         
         praser = GenericPraser()
         
@@ -73,7 +77,7 @@ public class ComandsRuner {
     
     public static func runForEver(comand:Comand, completion:@escaping (String) -> Void) {
         
-//        forEverComandsRuning.append(comand)
+        //        forEverComandsRuning.append(comand)
         praser = GenericPraser()
         
         run(comand:comand  , forEver:true) { (result) in
@@ -83,8 +87,8 @@ public class ComandsRuner {
     }
     
     
-   public static func stopForEver(comand:Comand!) {
-    
+    public static func stopForEver(comand:Comand!) {
+        
         if timer  != nil {
             timer.invalidate()
             
@@ -93,371 +97,17 @@ public class ComandsRuner {
     
     
     
-//    public static func run(comand:ComandType, withId id:String, withIp ip:String, completion:@escaping (String) -> Void) {
-//
-//
-//        var comandForRun:Comand!
-//        var isOk:Bool = false
-//
-//        switch comand {
-//        case .addFireWallBadHosts:
-//            praser = GenericPraser()
-//            print("addFireWallBadHosts")
-//            comandForRun =  AddFireWallBadHosts(withId: id, withIp:ip, praser: praser)
-//            isOk = true
-//
-//        case .deleteFireWallBadHosts:
-//            praser = GenericPraser()
-//            print("deleteFireWallBadHosts")
-//            comandForRun =  DeleteFireWallBadHosts(withId:id, withIp:ip, praser: praser)
-//            isOk = true
-//        case  .mtRoute:
-//            praser = GenericPraser()
-//            print("mtRoute")
-//            comandForRun =  MtRoute(withId:id, withIp:ip, praser: praser)
-//            isOk = true
-//        default:
-//            print("public static func run(comand:String,... Switch Default")
-//            isOk = false
-//
-//        }
-//
-//
-//        if isOk {
-//            run(comand:comandForRun  , forEver:false) { (result) in
-//                print(result)
-//
-//                completion(self.praser.prase(comandResult:result) as! String)
-//            }
-//        } else {
-//            print("The comand is not indexed yet ... run(comand")
-//        }
-//
-//    }
-//
-//
-//
-//
-//    public static func run(comand:ComandType, withId id:String, completion:@escaping (String) -> Void) {
-//
-//
-//        var comandForRun:Comand!
-//        var isOk:Bool = false
-//
-//        switch comand {
-//        case .fireWallState:
-//            praser = StatePraser()
-//            print("fireWallState")
-//            isOk = true
-//            comandForRun = FireWallState(withId:id, praser: praser)
-//
-//        case .fireWallStart :
-//            praser = GenericPraser()
-//            print("fireWallStart")
-//            isOk = true
-//            comandForRun =  FireWallStart(withId: id, praser: praser)
-//
-//        case  .fireWallStop :
-//            praser = GenericPraser()
-//            print("fireWallStop")
-//            isOk = true
-//            comandForRun =  FireWallStop(withId: id, praser: praser)
-//
-//        case  .fireWallBadHosts :
-//            praser = badHostsPraser()
-//            print("fireWallBadHosts")
-//            comandForRun = FireWallBadHosts(withId:id, praser: praser)
-//            isOk = true
-//        default:
-//            print("public static func run(comand:String,... Switch Default")
-//            isOk = false
-//
-//        }
-//
-//
-//        if isOk {
-//            run(comand:comandForRun  , forEver:false) { (result) in
-//                print(result)
-//
-//                completion(self.praser.prase(comandResult:result) as! String)
-//            }
-//        } else {
-//            print("The comand is not indexed yet ... run(comand")
-//        }
-//
-//    }
-//
-//
-//    public static func run(comand:ComandType, withIp ip:String, completion:@escaping (String) -> Void) {
-//
-//
-//        var comandForRun:Comand!
-//        var isOk:Bool = false
-//
-//        switch comand {
-//        case  .nsLookup:
-//            praser = GenericPraser()
-//            print("nsLookup")
-//            comandForRun =  NsLookup(withIp:ip, praser: praser)
-//            isOk = true
-//
-//        case  .traceRoute:
-//            praser = GenericPraser()
-//            print("traceRoute")
-//            comandForRun =  TraceRoute(withIp:ip, praser: praser)
-//            isOk = true
-//        case .whois :
-//            praser = GenericPraser()
-//            print("whois")
-//            comandForRun =  Whois(withIp:ip, praser: praser)
-//            isOk = true
-//        case  .tcpDump :
-//            praser = GenericPraser()
-//            print("tcpDump")
-//            isOk = true
-//            comandForRun =  TcpDumpCom(withIp:ip, praser: praser)
-//        case  .conectionData :
-//            praser = GenericPraser()
-//            print("conectionData")
-//            comandForRun = TcpDumpCom(withIp:ip, praser: praser)
-//            isOk = true
-//        default:
-//            print("public static func run(comand:String,... Switch Default")
-//            isOk = false
-//
-//        }
-//
-//
-//        if isOk {
-//            run(comand:comandForRun  , forEver:false) { (result) in
-//                print(result)
-//
-//                completion(self.praser.prase(comandResult:result) as! String)
-//            }
-//        } else {
-//            print("The comand is not indexed yet ... run(comand")
-//        }
-//
-//    }
-//
-//
-//    public static func run(comand:ComandType, completion:@escaping (String) -> Void) {
-//
-//
-//        var comandForRun:Comand!
-//        var isOk:Bool = false
-//
-//        switch comand {
-//
-//        case  .netStat :
-//            praser = NetStatPraser()
-//            print("netStat")
-//            isOk = true
-//            comandForRun =  NetStat(praser:praser)
-//
-//
-//
-//        default:
-//            print("public static func run(comand:String,... Switch Default")
-//             isOk = false
-//
-//        }
-//
-//
-//        if isOk {
-//            run(comand:comandForRun  , forEver:false) { (result) in
-//                print(result)
-//
-//                completion(self.praser.prase(comandResult:result) as! String)
-//            }
-//        } else {
-//            print("The comand is not indexed yet ... run(comand")
-//        }
-//
-//    }
-//
-//
-//
-//
-//
-//
-//    public static func run(comand:String, args:String!, forEver:Bool, completion:@escaping (String) -> Void) { //FIXME: separar en varias func
-//
-//        var ip:String = "0.0.0.0" //TODO: cambiar ???
-//        var comandForRun:Comand!
-//        var isOk:Bool = false
-//
-//        if args != nil {
-//            ip = args
-//        }
-//
-//
-//        switch comand {
-//        // ----------------------- FIREWALL -----------------------
-////        case ComandType.fireWallState.rawValue:
-////            praser = StatePraser()
-////            print("fireWallState")
-////            isOk = true
-////            comandForRun = FireWallState(withId:comandsRunerId, praser: praser)
-//
-////        case ComandType.fireWallStart.rawValue:
-////            praser = GenericPraser()
-////            print("fireWallStart")
-////            isOk = true
-////            comandForRun =  FireWallStart(withId: comandsRunerId, praser: praser)
-////
-////        case ComandType.fireWallStop.rawValue:
-////            praser = GenericPraser()
-////            print("fireWallStop")
-////            isOk = true
-////            comandForRun =  FireWallStop(withId: comandsRunerId, praser: praser)
-////
-////        case ComandType.fireWallBadHosts.rawValue:
-////            praser = badHostsPraser()
-////            print("fireWallBadHosts")
-////            comandForRun = FireWallBadHosts(withId:comandsRunerId, praser: praser)
-////            isOk = true
-//
-////        case ComandType.addFireWallBadHosts.rawValue:
-////            praser = GenericPraser()
-////            print("addFireWallBadHosts")
-////            comandForRun =  AddFireWallBadHosts(withId: comandsRunerId, withIp:ip, praser: praser)
-////            isOk = true
-//
-////        case ComandType.deleteFireWallBadHosts.rawValue:
-////            praser = GenericPraser()
-////            print("deleteFireWallBadHosts")
-////            comandForRun =  DeleteFireWallBadHosts(withId:comandsRunerId, withIp:ip, praser: praser)
-////            isOk = true
-//
-//        case ComandType.blockIp.rawValue:
-//            praser = GenericPraser()
-//            print("blockIp")
-//            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
-//            isOk = true
-//
-//
-//        // ----------------------- INFO -----------------------
-////        case ComandType.mtRoute.rawValue:
-////            praser = GenericPraser()
-////            print("mtRoute")
-////            comandForRun =  MtRoute(withId:comandsRunerId, withIp:ip, praser: praser)
-////            isOk = true
-//
-//        case ComandType.nsLookup .rawValue:
-//            praser = GenericPraser()
-//            print("nsLookup")
-//            comandForRun =  NsLookup(withIp:ip, praser: praser)
-//            isOk = true
-//
-//        case ComandType.ping.rawValue:
-//            praser = GenericPraser()
-//            print("ping")
-//            comandForRun = GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
-//            isOk = true
-//
-////        case ComandType.traceRoute.rawValue:
-////            praser = GenericPraser()
-////            print("traceRoute")
-////            comandForRun =  TraceRoute(withIp:ip, praser: praser)
-////            isOk = true
-//
-////        case ComandType.whois.rawValue:
-////            praser = GenericPraser()
-////            print("whois")
-////            comandForRun =  Whois(withIp:ip, praser: praser)
-////            isOk = true
-//
-//        case ComandType.dig.rawValue:
-//            praser = GenericPraser()
-//            print("dig")
-//            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "/usr/bin/dig", taskArgs:[ip])
-//            isOk = true
-//
-//        case ComandType.history.rawValue:
-//            praser = GenericPraser()
-//            print("history")
-//            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "/bin/pwd", taskArgs:["-L"])
-//            isOk = true
-//
-//        case ComandType.ports_Services.rawValue:
-//            praser = GenericPraser()
-//            print("ports_Services")
-////            comandForRun =  GenericComandId(withId:  comandsRunerId, praser: praser) //FIXME:no asi
-////            isOk = true
-//
-//
-//        //  ----------------------- CONECTIONS -----------------------
-////        case ComandType.netStat.rawValue:
-////            praser = NetStatPraser()
-////            print("netStat")
-////            isOk = true
-////            comandForRun =  NetStat(praser: praser, type:.netStat, taskPath: "", taskArgs: [""])  //FIXME:no asi
-//
-////        case ComandType.tcpDump.rawValue:
-////            praser = GenericPraser()
-////            print("tcpDump")
-////            isOk = true
-////            comandForRun =  TcpDumpCom(withIp:ip, praser: praser)
-//
-//            //  ----------------------- CONECTIONS -----------------------
-//
-////        case ComandType.conectionData.rawValue:
-////            praser = GenericPraser()
-////            print("conectionData")
-////            comandForRun = TcpDumpCom(withIp:ip, praser: praser)
-////            isOk = true
-//
-//
-//        //  ----------------------- GENERICS -----------------------
-//        case ComandType.genericComand.rawValue:
-//            praser = GenericPraser()
-//            print("genericComand")
-//            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
-//            isOk = true
-//
-//        case ComandType.generic.rawValue:
-//
-//            if praser != nil {
-//                print("generic praser OK Set")
-//
-//            }else {
-//                praser = GenericPraser()
-//                print("generic praser NOT Set")
-//            }
-//            comandForRun =  GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
-//            isOk = true
-//
-//         default:
-//            print("public static func run(comand:String,... Switch Default")
-//            isOk = false
-//
-//        }
-//
-//
-//        if isOk {
-//            run(comand:comandForRun  , forEver: forEver) { (result) in
-//                print(result)
-//
-//                completion(self.praser.prase(comandResult:result) as! String)
-//            }
-//        } else {
-//            print("The comand is not indexed yet ... run(comand")
-//        }
-//
-//    }
-//
-//
     
+  //MARK: ---------------------- PRIVATE API ---------------------------
     
-    static func run(comand:Comand, forEver:Bool ,completion:@escaping (String) -> Void) {
+  private  static func run(comand:Comand, forEver:Bool ,completion:@escaping (String) -> Void) {
         
         switch forEver {
         case true:
             
             if timer  == nil {
                 comand1 = comand
-                 ComandsRuner().timerStart()
+                ComandsRuner().timerStart()
             }else if timer != nil {
                 comand2 = comand
                 timerStart2()
@@ -477,10 +127,7 @@ public class ComandsRuner {
     
     
     
-    
-    
-    
-    private static func run(comand:Comand, completion:@escaping ([String],ComandType) -> Void) {
+private static func run(comand:Comand, completion:@escaping ([String],ComandType) -> Void) {
         
         let task = Process()
         task.launchPath = comand.taskPath
@@ -502,7 +149,7 @@ public class ComandsRuner {
             
             let dataResult = s.components(separatedBy: "\n")
             
-        
+            
             
             DispatchQueue.main.sync {
                 completion(dataResult,comand.type)
@@ -520,40 +167,25 @@ public class ComandsRuner {
     
     //MARK: ---------------------- TIMERS ---------------------------
     
-    
-    
-  public   func timerStart() {
-        
-    ComandsRuner.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
+    public   func timerStart() {
+        ComandsRuner.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
         print("timerStart()")
-        
     }
     
     static  func timerStart2() {
-        
         timer2 = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.timerAction2), userInfo: nil, repeats: true)
         print("timerStart2()")
-        
     }
     
     
     
-    
-    
-    
-  @objc func timerAction() {
+    @objc func timerAction() {
         print("timer Action()")
-        
         
         ComandsRuner.run(comand:ComandsRuner.comand1) { (results, comand) in
             ComandsRuner.comandsRunerDelegate?.finish(comand:comand, withResult:results)
         }
-        
-        
-        
     }
-    
-    
     
     @objc func timerAction2() {
         print("timer Action2()")
@@ -561,8 +193,6 @@ public class ComandsRuner {
         ComandsRuner.run(comand:ComandsRuner.comand2) { (results, comand) in
             ComandsRuner.comandsRunerDelegate?.finish(comand:comand, withResult:results)
         }
-        
-        
     }
     
     
