@@ -229,16 +229,16 @@ struct GenericComandIpId:ComandIdIpPraserable {
 
 
 //MARK: -------------------------------- CONECTIONS --------------------------------
-struct NetStat:Comand  {
+struct NetStat:ComandPraserable  {
+    
     var praser: Prasable
-    
- 
     var type: ComandType = .netStat
-    
     var taskPath:String =  "/bin/sh"
     var taskArgs:[String] = ["-c" , "netstat -an  | grep ESTABLISHED"]
     
-    
+    init(praser: Prasable) {
+        self.praser = praser
+    }
 }
 
 

@@ -46,6 +46,209 @@ public class ComandsRuner {
     
     
     
+    public static func runGeneric(comand:String, args:[String], completion:@escaping (String) -> Void) {
+        
+        praser = GenericPraser()
+        print("Generic")
+        let comandForRun:Comand  = GenericComand(praser: praser, type:.generic, taskPath: comand, taskArgs:args)
+ 
+        run(comand:comandForRun  , forEver:false) { (result) in
+                print(result)
+                completion(self.praser.prase(comandResult:result) as! String)
+        }
+        
+    }
+    
+    
+    
+    
+    public static func run(comand:ComandType, withId id:String, withIp ip:String, completion:@escaping (String) -> Void) {
+        
+        
+        var comandForRun:Comand!
+        var isOk:Bool = false
+        
+        switch comand {
+        case .addFireWallBadHosts:
+            praser = GenericPraser()
+            print("addFireWallBadHosts")
+            comandForRun =  AddFireWallBadHosts(withId: id, withIp:ip, praser: praser)
+            isOk = true
+            
+        case .deleteFireWallBadHosts:
+            praser = GenericPraser()
+            print("deleteFireWallBadHosts")
+            comandForRun =  DeleteFireWallBadHosts(withId:id, withIp:ip, praser: praser)
+            isOk = true
+        case  .mtRoute:
+            praser = GenericPraser()
+            print("mtRoute")
+            comandForRun =  MtRoute(withId:id, withIp:ip, praser: praser)
+            isOk = true
+        default:
+            print("public static func run(comand:String,... Switch Default")
+            isOk = false
+            
+        }
+        
+        
+        if isOk {
+            run(comand:comandForRun  , forEver:false) { (result) in
+                print(result)
+                
+                completion(self.praser.prase(comandResult:result) as! String)
+            }
+        } else {
+            print("The comand is not indexed yet ... run(comand")
+        }
+        
+    }
+    
+    
+    
+    
+    public static func run(comand:ComandType, withId id:String, completion:@escaping (String) -> Void) {
+        
+        
+        var comandForRun:Comand!
+        var isOk:Bool = false
+        
+        switch comand {
+        case .fireWallState:
+            praser = StatePraser()
+            print("fireWallState")
+            isOk = true
+            comandForRun = FireWallState(withId:id, praser: praser)
+            
+        case .fireWallStart :
+            praser = GenericPraser()
+            print("fireWallStart")
+            isOk = true
+            comandForRun =  FireWallStart(withId: id, praser: praser)
+            
+        case  .fireWallStop :
+            praser = GenericPraser()
+            print("fireWallStop")
+            isOk = true
+            comandForRun =  FireWallStop(withId: id, praser: praser)
+            
+        case  .fireWallBadHosts :
+            praser = badHostsPraser()
+            print("fireWallBadHosts")
+            comandForRun = FireWallBadHosts(withId:id, praser: praser)
+            isOk = true
+        default:
+            print("public static func run(comand:String,... Switch Default")
+            isOk = false
+            
+        }
+        
+        
+        if isOk {
+            run(comand:comandForRun  , forEver:false) { (result) in
+                print(result)
+                
+                completion(self.praser.prase(comandResult:result) as! String)
+            }
+        } else {
+            print("The comand is not indexed yet ... run(comand")
+        }
+        
+    }
+    
+    
+    public static func run(comand:ComandType, withIp ip:String, completion:@escaping (String) -> Void) {
+        
+        
+        var comandForRun:Comand!
+        var isOk:Bool = false
+        
+        switch comand {
+        case  .nsLookup:
+            praser = GenericPraser()
+            print("nsLookup")
+            comandForRun =  NsLookup(withIp:ip, praser: praser)
+            isOk = true
+            
+        case  .traceRoute:
+            praser = GenericPraser()
+            print("traceRoute")
+            comandForRun =  TraceRoute(withIp:ip, praser: praser)
+            isOk = true
+        case .whois :
+            praser = GenericPraser()
+            print("whois")
+            comandForRun =  Whois(withIp:ip, praser: praser)
+            isOk = true
+        case  .tcpDump :
+            praser = GenericPraser()
+            print("tcpDump")
+            isOk = true
+            comandForRun =  TcpDumpCom(withIp:ip, praser: praser)
+        case  .conectionData :
+            praser = GenericPraser()
+            print("conectionData")
+            comandForRun = TcpDumpCom(withIp:ip, praser: praser)
+            isOk = true
+        default:
+            print("public static func run(comand:String,... Switch Default")
+            isOk = false
+            
+        }
+        
+        
+        if isOk {
+            run(comand:comandForRun  , forEver:false) { (result) in
+                print(result)
+                
+                completion(self.praser.prase(comandResult:result) as! String)
+            }
+        } else {
+            print("The comand is not indexed yet ... run(comand")
+        }
+        
+    }
+    
+    
+    public static func run(comand:ComandType, completion:@escaping (String) -> Void) {
+
+        
+        var comandForRun:Comand!
+        var isOk:Bool = false
+        
+        switch comand {
+            
+        case  .netStat :
+            praser = NetStatPraser()
+            print("netStat")
+            isOk = true
+            comandForRun =  NetStat(praser:praser)
+ 
+            
+            
+        default:
+            print("public static func run(comand:String,... Switch Default")
+             isOk = false
+            
+        }
+        
+        
+        if isOk {
+            run(comand:comandForRun  , forEver:false) { (result) in
+                print(result)
+                
+                completion(self.praser.prase(comandResult:result) as! String)
+            }
+        } else {
+            print("The comand is not indexed yet ... run(comand")
+        }
+    
+    }
+    
+    
+    
+    
+    
     
     public static func run(comand:String, args:String!, forEver:Bool, completion:@escaping (String) -> Void) { //FIXME: separar en varias func
         
@@ -57,43 +260,44 @@ public class ComandsRuner {
             ip = args
         }
         
+        
         switch comand {
         // ----------------------- FIREWALL -----------------------
-        case ComandType.fireWallState.rawValue:
-            praser = StatePraser()
-            print("fireWallState")
-            isOk = true
-            comandForRun = FireWallState(withId:comandsRunerId, praser: praser)
+//        case ComandType.fireWallState.rawValue:
+//            praser = StatePraser()
+//            print("fireWallState")
+//            isOk = true
+//            comandForRun = FireWallState(withId:comandsRunerId, praser: praser)
             
-        case ComandType.fireWallStart.rawValue:
-            praser = GenericPraser()
-            print("fireWallStart")
-            isOk = true
-            comandForRun =  FireWallStart(withId: comandsRunerId, praser: praser)
+//        case ComandType.fireWallStart.rawValue:
+//            praser = GenericPraser()
+//            print("fireWallStart")
+//            isOk = true
+//            comandForRun =  FireWallStart(withId: comandsRunerId, praser: praser)
+//
+//        case ComandType.fireWallStop.rawValue:
+//            praser = GenericPraser()
+//            print("fireWallStop")
+//            isOk = true
+//            comandForRun =  FireWallStop(withId: comandsRunerId, praser: praser)
+//
+//        case ComandType.fireWallBadHosts.rawValue:
+//            praser = badHostsPraser()
+//            print("fireWallBadHosts")
+//            comandForRun = FireWallBadHosts(withId:comandsRunerId, praser: praser)
+//            isOk = true
             
-        case ComandType.fireWallStop.rawValue:
-            praser = GenericPraser()
-            print("fireWallStop")
-            isOk = true
-            comandForRun =  FireWallStop(withId: comandsRunerId, praser: praser)
+//        case ComandType.addFireWallBadHosts.rawValue:
+//            praser = GenericPraser()
+//            print("addFireWallBadHosts")
+//            comandForRun =  AddFireWallBadHosts(withId: comandsRunerId, withIp:ip, praser: praser)
+//            isOk = true
             
-        case ComandType.fireWallBadHosts.rawValue:
-            praser = badHostsPraser()
-            print("fireWallBadHosts")
-            comandForRun = FireWallBadHosts(withId:comandsRunerId, praser: praser)
-            isOk = true
-            
-        case ComandType.addFireWallBadHosts.rawValue:
-            praser = GenericPraser()
-            print("addFireWallBadHosts")
-            comandForRun =  AddFireWallBadHosts(withId: comandsRunerId, withIp:ip, praser: praser)
-            isOk = true
-            
-        case ComandType.deleteFireWallBadHosts.rawValue:
-            praser = GenericPraser()
-            print("deleteFireWallBadHosts")
-            comandForRun =  DeleteFireWallBadHosts(withId:comandsRunerId, withIp:ip, praser: praser)
-            isOk = true
+//        case ComandType.deleteFireWallBadHosts.rawValue:
+//            praser = GenericPraser()
+//            print("deleteFireWallBadHosts")
+//            comandForRun =  DeleteFireWallBadHosts(withId:comandsRunerId, withIp:ip, praser: praser)
+//            isOk = true
             
         case ComandType.blockIp.rawValue:
             praser = GenericPraser()
@@ -103,11 +307,11 @@ public class ComandsRuner {
             
             
         // ----------------------- INFO -----------------------
-        case ComandType.mtRoute.rawValue:
-            praser = GenericPraser()
-            print("mtRoute")
-            comandForRun =  MtRoute(withId:comandsRunerId, withIp:ip, praser: praser)
-            isOk = true
+//        case ComandType.mtRoute.rawValue:
+//            praser = GenericPraser()
+//            print("mtRoute")
+//            comandForRun =  MtRoute(withId:comandsRunerId, withIp:ip, praser: praser)
+//            isOk = true
             
         case ComandType.nsLookup .rawValue:
             praser = GenericPraser()
@@ -121,17 +325,17 @@ public class ComandsRuner {
             comandForRun = GenericComand(praser: praser, type:.generic, taskPath: "", taskArgs:[""])
             isOk = true
             
-        case ComandType.traceRoute.rawValue:
-            praser = GenericPraser()
-            print("traceRoute")
-            comandForRun =  TraceRoute(withIp:ip, praser: praser)
-            isOk = true
+//        case ComandType.traceRoute.rawValue:
+//            praser = GenericPraser()
+//            print("traceRoute")
+//            comandForRun =  TraceRoute(withIp:ip, praser: praser)
+//            isOk = true
             
-        case ComandType.whois.rawValue:
-            praser = GenericPraser()
-            print("whois")
-            comandForRun =  Whois(withIp:ip, praser: praser)
-            isOk = true
+//        case ComandType.whois.rawValue:
+//            praser = GenericPraser()
+//            print("whois")
+//            comandForRun =  Whois(withIp:ip, praser: praser)
+//            isOk = true
             
         case ComandType.dig.rawValue:
             praser = GenericPraser()
@@ -153,25 +357,25 @@ public class ComandsRuner {
             
             
         //  ----------------------- CONECTIONS -----------------------
-        case ComandType.netStat.rawValue:
-            praser = NetStatPraser()
-            print("netStat")
-            isOk = true
-            comandForRun =  NetStat(praser: praser, type:.netStat, taskPath: "", taskArgs: [""])  //FIXME:no asi
+//        case ComandType.netStat.rawValue:
+//            praser = NetStatPraser()
+//            print("netStat")
+//            isOk = true
+//            comandForRun =  NetStat(praser: praser, type:.netStat, taskPath: "", taskArgs: [""])  //FIXME:no asi
             
-        case ComandType.tcpDump.rawValue:
-            praser = GenericPraser()
-            print("tcpDump")
-            isOk = true
-            comandForRun =  TcpDumpCom(withIp:ip, praser: praser)
+//        case ComandType.tcpDump.rawValue:
+//            praser = GenericPraser()
+//            print("tcpDump")
+//            isOk = true
+//            comandForRun =  TcpDumpCom(withIp:ip, praser: praser)
             
             //  ----------------------- CONECTIONS -----------------------
             
-        case ComandType.conectionData.rawValue:
-            praser = GenericPraser()
-            print("conectionData")
-            comandForRun = TcpDumpCom(withIp:ip, praser: praser)
-            isOk = true
+//        case ComandType.conectionData.rawValue:
+//            praser = GenericPraser()
+//            print("conectionData")
+//            comandForRun = TcpDumpCom(withIp:ip, praser: praser)
+//            isOk = true
             
             
         //  ----------------------- GENERICS -----------------------
