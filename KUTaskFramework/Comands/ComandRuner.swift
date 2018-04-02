@@ -50,7 +50,7 @@ public class ComandsRuner {
     
     
     
-    public static func runGeneric(comand:String, args:[String], completion:@escaping (String) -> Void) {
+    public static func runGeneric(comand:String, args:[String], completion:@escaping ([String]) -> Void) {
         
         praser =  Prasers.GenericPraser()
         print("Generic")
@@ -58,19 +58,19 @@ public class ComandsRuner {
         
         run(comand:comandForRun  , forEver:false) { (result) in
             print(result)
-            completion(self.praser.prase(comandResult:result) as! String)
+            completion(self.praser.prase(comandResult:result) as! [String])
         }
         
     }
     
     
-    public static func run(comand:Comand, completion:@escaping (String) -> Void) {
+    public static func run(comand:Comand, completion:@escaping ([String]) -> Void) {
         
         praser = Prasers.GenericPraser()
         
         run(comand:comand  , forEver:false) { (result) in
             print(result)
-            completion(self.praser.prase(comandResult:result) as! String)
+            completion(self.praser.prase(comandResult:result) as! [String])
         }
     }
     
@@ -100,7 +100,7 @@ public class ComandsRuner {
     
   //MARK: ---------------------- PRIVATE API ---------------------------
     
-  private  static func run(comand:Comand, forEver:Bool ,completion:@escaping (String) -> Void) {
+  private  static func run(comand:Comand, forEver:Bool ,completion:@escaping ([String]) -> Void) {
         
         switch forEver {
         case true:
@@ -117,7 +117,7 @@ public class ComandsRuner {
             run(comand: comand, completion: { (results,comand) in
                 print(results)
                 print(comand)
-                completion(results[0])
+                completion(results)
                 //                 self.comandsRunerDelegate?.finish(comand:comand, withResult:results)
             })
             //            completion("acabado_1")

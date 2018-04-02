@@ -12,7 +12,7 @@ import Foundation
 
 
 public protocol Prasable  {
-    func prase(comandResult:String) -> Any
+    func prase(comandResult:[String]) -> Any
 }
 
 public   enum  PraserType {
@@ -45,7 +45,7 @@ public   class Prasers  {
     
     struct GenericPraser:Prasable   {
         
-        public func prase(comandResult:String) -> Any {
+        public func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver [String]
             return comandResult
         }
         
@@ -54,10 +54,10 @@ public   class Prasers  {
     
     struct StatePraser:Prasable   {
         
-        func prase(comandResult:String) -> Any {
+        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
             var state:String!
             
-            if comandResult.contains("Status") {
+            if comandResult.contains("Status") { //FIXME: Arreglar
                 
                 if comandResult.contains("Disabled") {
                     state = "Disabled"
@@ -73,8 +73,8 @@ public   class Prasers  {
     struct NetStatPraser:Prasable   {
         
         
-        func prase(comandResult:String) -> Any {
-            var result:String!
+        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
+            var result:[String]!
             if comandResult.contains("tcp4") {
                 result = comandResult
             }
@@ -85,15 +85,15 @@ public   class Prasers  {
     
     struct badHostsPraser:Prasable   {
         
-        func prase(comandResult:String) -> Any {
+        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
             return comandResult
         }
     }
     
     struct nsLookUpPraser:Prasable   {
         
-        func prase(comandResult:String) -> Any {
-            var result:String!
+        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
+            var result:[String]!
             
             if comandResult.contains("Server:") {
                 result = comandResult
