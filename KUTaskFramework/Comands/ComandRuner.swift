@@ -52,7 +52,7 @@ public class ComandsRuner {
     
     public static func runGeneric(comand:String, args:[String], completion:@escaping (String) -> Void) {
         
-        praser = GenericPraser()
+        praser =  Prasers.GenericPraser()
         print("Generic")
         let comandForRun:Comand  = GenericComand(praser: praser, type:.generic, taskPath: comand, taskArgs:args)
         
@@ -66,7 +66,7 @@ public class ComandsRuner {
     
     public static func run(comand:Comand, completion:@escaping (String) -> Void) {
         
-        praser = GenericPraser()
+        praser = Prasers.GenericPraser()
         
         run(comand:comand  , forEver:false) { (result) in
             print(result)
@@ -78,7 +78,7 @@ public class ComandsRuner {
     public static func runForEver(comand:Comand, completion:@escaping (String) -> Void) {
         
         //        forEverComandsRuning.append(comand)
-        praser = GenericPraser()
+        praser = Prasers.GenericPraser()
         
         run(comand:comand  , forEver:true) { (result) in
             print(result)
@@ -145,7 +145,9 @@ private static func run(comand:Comand, completion:@escaping ([String],ComandType
             guard let data = (task.standardOutput as? Pipe)?.fileHandleForReading.availableData,
                 data.count > 0,
                 let s = String(data: data, encoding: .utf8)
-                else { return }
+                else {
+                return
+                }
             
             let dataResult = s.components(separatedBy: "\n")
             

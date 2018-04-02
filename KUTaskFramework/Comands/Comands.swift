@@ -16,13 +16,12 @@ public enum ComandType:String {
 }
 
 
+
 public enum CustomComand  {
     
     case custom(praser:Prasable,taskPath:String,taskArgs:[String])
     
-    
     public  func  comand() ->  Comand {
-        
         var comand:Comand!
         
         switch self {
@@ -32,7 +31,6 @@ public enum CustomComand  {
         }
         return comand
    }
-    
 }
 
 
@@ -57,19 +55,19 @@ public enum NetInfoComands  {
         switch self {
         case .whois(let ip):
             print("whois to: \(ip)")
-            comand = Whois(withIp: ip, praser:GenericPraser())
+            comand = Whois(withIp: ip, praser:Prasers.GenericPraser())
             
         case .traceRoute(let ip):
             print("traceRoute to: \(ip)")
-            comand =  TraceRoute(withIp:ip, praser: GenericPraser())
+            comand =  TraceRoute(withIp:ip, praser: Prasers.GenericPraser())
             
         case .dig(let ip):
             print("dig to: \(ip)")
-             comand =  TraceRoute(withIp:ip, praser: GenericPraser())
+             comand =  TraceRoute(withIp:ip, praser: Prasers.GenericPraser())
             
         case .nsLookup(let ip):
             print("nsLookup to: \(ip)")
-            comand =  NsLookup(withIp: ip, praser: GenericPraser())
+            comand =  NsLookup(withIp: ip, praser: Prasers.GenericPraser())
             
          
             
@@ -84,16 +82,16 @@ public enum NetInfoComands  {
             
         case .tcpDump(let ip) :
             print("tcpDump to: \(ip)")
-            comand = TcpDumpCom(withIp: ip, praser: GenericPraser())
+            comand = TcpDumpCom(withIp: ip, praser: Prasers.GenericPraser())
             
         case .mtRoute(let id, let ip) :
             print("mtRoute to: \(ip)")
-            comand = MtRoute(withId:id , withIp: ip, praser: GenericPraser())
+            comand = MtRoute(withId:id , withIp: ip, praser: Prasers.GenericPraser())
             
          
         case .netStat :
             print("netStat")
-            comand = NetStat(praser:NetStatPraser())
+            comand = NetStat(praser:Prasers.NetStatPraser())
          
          
     }
@@ -120,26 +118,26 @@ public enum FireWallComands  {
         switch self {
         case .fireWallState(let id):
             print("fireWallState")
-             comand =  FireWallState(withId:id, praser:StatePraser())
+             comand =  FireWallState(withId:id, praser:Prasers.StatePraser())
             
         case .fireWallBadHosts(let id):
             print("fireWallBadHosts")
-             comand =  FireWallBadHosts(withId:id, praser: GenericPraser())
+             comand =  FireWallBadHosts(withId:id, praser: Prasers.GenericPraser())
         case .fireWallStart(let id):
             print("fireWallStart")
-            comand =  FireWallStart(withId: id, praser: GenericPraser())
+            comand =  FireWallStart(withId: id, praser: Prasers.GenericPraser())
             
         case .fireWallStop(let id):
             print("fireWallStop")
-             comand =  FireWallStop(withId: id, praser: GenericPraser())
+             comand =  FireWallStop(withId: id, praser: Prasers.GenericPraser())
             
         case .addFireWallBadHosts(let id,let ip):
             print("addFireWallBadHosts")
-             comand =  AddFireWallBadHosts(withId: id, withIp:ip, praser: GenericPraser())
+             comand =  AddFireWallBadHosts(withId: id, withIp:ip, praser: Prasers.GenericPraser())
             
         case .deleteFireWallBadHosts(let id,let ip):
             print("deleteFireWallBadHosts")
-             comand =  DeleteFireWallBadHosts(withId:id, withIp:ip, praser: GenericPraser())
+             comand =  DeleteFireWallBadHosts(withId:id, withIp:ip, praser: Prasers.GenericPraser())
         }
         return comand
     }

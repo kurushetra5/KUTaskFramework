@@ -15,60 +15,92 @@ public protocol Prasable  {
     func prase(comandResult:String) -> Any
 }
 
-struct GenericPraser:Prasable   {
+public   enum  PraserType {
+    case generic,state
     
-    func prase(comandResult:String) -> Any {
-        return comandResult
-    }
-}
-
-
-struct StatePraser:Prasable   {
     
-     func prase(comandResult:String) -> Any {
-        var state:String!
+    public  func praserToUse() -> Prasable {
+        var  praser:Prasable!
         
-        if comandResult.contains("Status") {
+        switch self {
             
-            if comandResult.contains("Disabled") {
-                state = "Disabled"
-            } else if comandResult.contains("Enabled"){
-                state = "Enabled"
-            }
+        case .generic:
+            print("generic Praser")
+            praser =  Prasers.GenericPraser()
+        case .state:
+            print("state Praser")
+            praser =  Prasers.StatePraser()
         }
-        return state
+        return praser
     }
+    
 }
 
 
-struct NetStatPraser:Prasable   {
+public   class Prasers  {
     
     
-    func prase(comandResult:String) -> Any {
-        var result:String!
-        if comandResult.contains("tcp4") {
-            result = comandResult
-        }
-        return result
-    }
-}
-
-
-struct badHostsPraser:Prasable   {
     
-    func prase(comandResult:String) -> Any {
-        return comandResult
-    }
-}
-
-struct nsLookUpPraser:Prasable   {
     
-    func prase(comandResult:String) -> Any {
-        var result:String!
+    
+    struct GenericPraser:Prasable   {
         
-        if comandResult.contains("Server:") {
-            result = comandResult
+        public func prase(comandResult:String) -> Any {
+            return comandResult
         }
-        return  result
+        
     }
+    
+    
+    struct StatePraser:Prasable   {
+        
+        func prase(comandResult:String) -> Any {
+            var state:String!
+            
+            if comandResult.contains("Status") {
+                
+                if comandResult.contains("Disabled") {
+                    state = "Disabled"
+                } else if comandResult.contains("Enabled"){
+                    state = "Enabled"
+                }
+            }
+            return state
+        }
+    }
+    
+    
+    struct NetStatPraser:Prasable   {
+        
+        
+        func prase(comandResult:String) -> Any {
+            var result:String!
+            if comandResult.contains("tcp4") {
+                result = comandResult
+            }
+            return result
+        }
+    }
+    
+    
+    struct badHostsPraser:Prasable   {
+        
+        func prase(comandResult:String) -> Any {
+            return comandResult
+        }
+    }
+    
+    struct nsLookUpPraser:Prasable   {
+        
+        func prase(comandResult:String) -> Any {
+            var result:String!
+            
+            if comandResult.contains("Server:") {
+                result = comandResult
+            }
+            return  result
+        }
+    }
+    
+    
 }
