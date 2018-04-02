@@ -70,7 +70,7 @@ public class ComandsRuner {
         
         run(comand:comand  , forEver:false) { (result) in
             print(result)
-            completion(self.praser.prase(comandResult:result) as! [String])
+            completion(self.praser.prase(comandResult:result) as! [String]) //FIXME:praser ???
         }
     }
     
