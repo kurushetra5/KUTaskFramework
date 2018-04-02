@@ -37,10 +37,15 @@ public   enum  PraserType {
 }
 
 
+public protocol PraserResultObject  {
+    
+}
+
+
+
+
+
 public   class Prasers  {
-    
-    
-    
     
     
     struct GenericPraser:Prasable   {
@@ -57,11 +62,11 @@ public   class Prasers  {
         func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
             var state:String!
             
-            if comandResult.contains("Status") { //FIXME: Arreglar
+            if comandResult[0].contains("Status:") { //FIXME: Arreglar
                 
-                if comandResult.contains("Disabled") {
+                if comandResult[0].contains("Disabled") {
                     state = "Disabled"
-                } else if comandResult.contains("Enabled"){
+                } else if comandResult[0].contains("Enabled"){
                     state = "Enabled"
                 }
             }

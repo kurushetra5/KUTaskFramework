@@ -66,23 +66,24 @@ public class ComandsRuner {
     
     public static func run(comand:Comand, completion:@escaping ([String]) -> Void) {
         
-        praser = Prasers.GenericPraser()
+//        praser = Prasers.GenericPraser()
         
         run(comand:comand  , forEver:false) { (result) in
             print(result)
-            completion(self.praser.prase(comandResult:result) as! [String]) //FIXME:praser ???
+            completion([comand.praser.prase(comandResult:result) as! String]) //FIXME:praser ??? protocolo de salida
         }
     }
+    
     
     
     public static func runForEver(comand:Comand, completion:@escaping (String) -> Void) {
         
         //        forEverComandsRuning.append(comand)
-        praser = Prasers.GenericPraser()
+//        praser = Prasers.GenericPraser()
         
         run(comand:comand  , forEver:true) { (result) in
             print(result)
-            completion(self.praser.prase(comandResult:result) as! String)
+            completion(comand.praser.prase(comandResult:result) as! String)
         }
     }
     
@@ -94,6 +95,10 @@ public class ComandsRuner {
             
         }
     }
+    
+    
+    
+    
     
     
     
@@ -118,9 +123,9 @@ public class ComandsRuner {
                 print(results)
                 print(comand)
                 completion(results)
-                //                 self.comandsRunerDelegate?.finish(comand:comand, withResult:results)
+                
             })
-            //            completion("acabado_1")
+           
         }
         
     }
@@ -132,9 +137,7 @@ private static func run(comand:Comand, completion:@escaping ([String],ComandType
         let task = Process()
         task.launchPath = comand.taskPath
         task.arguments = comand.taskArgs
-        //        task.arguments = comand.taskArgs
         task.standardOutput = Pipe()
-        
         task.terminationHandler = { task in
             guard task.terminationStatus == 0
                 else {
@@ -150,8 +153,6 @@ private static func run(comand:Comand, completion:@escaping ([String],ComandType
                 }
             
             let dataResult = s.components(separatedBy: "\n")
-            
-            
             
             DispatchQueue.main.sync {
                 completion(dataResult,comand.type)
