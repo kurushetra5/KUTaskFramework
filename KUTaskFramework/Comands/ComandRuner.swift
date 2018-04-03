@@ -11,7 +11,7 @@ import Foundation
 
 
 public protocol ComandsRunerDelegate {
-    func finish(comand:ComandType, withResult result:[String])
+    func finish(comand:String, withResult result:[String])
 }
 
 public enum ComandsRunerError: Error {
@@ -108,15 +108,15 @@ public class ComandsRuner {
         
         switch forEver {
         case true:
-            runTimerTask(comand)
+//            runTimerTask(comand)
             
-//            if timer  == nil {
-//                comand1 = comand
-//                ComandsRuner().timerStart()
-//            }else if timer != nil {
-//                comand2 = comand
-//                timerStart2()
-//            }
+            if timer  == nil {
+                comand1 = comand
+                ComandsRuner().timerStart()
+            }else if timer != nil {
+                comand2 = comand
+                timerStart2()
+            }
             
         case false:
             run(comand: comand, completion: { (results,comand) in
@@ -137,12 +137,12 @@ public class ComandsRuner {
         // comprobar si existe la tarea por nombre
     for timer in timers  {
         
-        if timer.taskType == comand.type {
+        if timer.taskType == comand.name {
             print("El Comando ya se esta corriendo ...???")
         } else {
             // crear KUTimer y rellena
             
-            var timer:KUTimer = KUTimer(timer:Timer() , id:"TimerID_0001", taskType:comand.type)
+            var timer:KUTimer = KUTimer(timer:Timer() , id:"TimerID_0001", taskType:comand.name)
             // pone el timer en el array
             timers.append(timer)
             // corre el timer
@@ -158,7 +158,7 @@ public class ComandsRuner {
  
     
     
-private static func run(comand:Comand, completion:@escaping ([String],ComandType) -> Void) {
+private static func run(comand:Comand, completion:@escaping ([String],String) -> Void) {
         
         let task = Process()
         task.launchPath = comand.taskPath
@@ -181,7 +181,7 @@ private static func run(comand:Comand, completion:@escaping ([String],ComandType
             let dataResult = s.components(separatedBy: "\n")
             
             DispatchQueue.main.sync {
-                completion(dataResult,comand.type)
+                completion(dataResult,comand.name)
             }
         }
         task.launch()

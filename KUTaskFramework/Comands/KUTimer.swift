@@ -10,7 +10,7 @@ import Foundation
 
 
   protocol KUTimerable  {
-    var taskType:ComandType{get set}
+//    var taskType:ComandType{get set}
     var id:String {get set}
     var timer:Timer {get set}
     var isRunning:Bool {get set}
@@ -47,13 +47,13 @@ extension KUTimerable where Self :KUTimer  {
 class KUTimer:KUTimerable {
     
     
-    var taskType:ComandType
+     var taskType:String
     var id:String
     var timer:Timer
     var isRunning:Bool
     
     
-    init(timer:Timer, id:String, taskType:ComandType) {
+    init(timer:Timer, id:String, taskType:String) {
         self.timer = timer
         self.id = id
         self.taskType = taskType

@@ -10,148 +10,10 @@ import Foundation
 
 
 
-
-public enum ComandType  {
-    case tcpDump,traceRoute,mtRoute,whois,nsLookup,blockIp,netStat,fireWallState,fireWallBadHosts,addFireWallBadHosts,deleteFireWallBadHosts,fireWallStop,fireWallStart,genericComand,dig,ports_Services,ping,conectionData,generic
-}
-
-
-
-public enum CustomComand  {
-    
-    case custom(praser:Prasable,taskPath:String,taskArgs:[String])
-    
-    public  func  comand() ->  Comand {
-        var comand:Comand!
-        
-        switch self {
-        case .custom(let praser ,let path ,let args):
-            print("custom")
-            comand = GenericComand(name:"generic", praser: praser,   taskPath: path, taskArgs: args)
-        }
-        return comand
-   }
-}
-
-
-
-public enum NetInfoComands  {
-    
-   case  netStat
-    
-    case whois(ip:String)
-    case traceRoute(ip:String)
-    case nsLookup(ip:String)
-    case dig(ip:String)
-    case nmap(ip:String)
-    case ping(ip:String)
-    case tcpDump(ip:String)
-    case mtRoute(withId:String, ip:String)
-    
-    public  func  comand() ->  Comand {
-        
-        var comand:Comand!
-        
-        switch self {
-        case .whois(let ip):
-            print("whois to: \(ip)")
-            comand = Whois(withIp: ip, name:"whois", praser:Prasers.GenericPraser())
-            
-        case .traceRoute(let ip):
-            print("traceRoute to: \(ip)")
-            comand =  TraceRoute(withIp:ip, name:"traceRoute", praser: Prasers.GenericPraser())
-            
-        case .dig(let ip):
-            print("dig to: \(ip)")
-             comand =  TraceRoute(withIp:ip,name:"dig", praser: Prasers.GenericPraser())
-            
-        case .nsLookup(let ip):
-            print("nsLookup to: \(ip)")
-            comand =  NsLookup(withIp: ip,name:"nsLookup", praser: Prasers.GenericPraser())
-            
-         
-            
-        case .nmap(let ip):
-            print("nmap")
-            print("nmap to: \(ip) ")
-//            comand =  TraceRoute(withIp:ip, praser: GenericPraser())
-            
-        case .ping(let ip):
-            print("ping to: \(ip) ")
-            //comand =  TraceRoute(withIp:ip, praser: GenericPraser())
-            
-        case .tcpDump(let ip) :
-            print("tcpDump to: \(ip)")
-            comand = TcpDumpCom(withIp: ip,name:"tcpDump", praser: Prasers.GenericPraser())
-            
-        case .mtRoute(let id, let ip) :
-            print("mtRoute to: \(ip)")
-            comand = MtRoute(withId:id , withIp: ip,name:"mtRoute" ,praser: Prasers.GenericPraser())
-            
-         
-        case .netStat :
-            print("netStat")
-            comand = NetStat(praser:Prasers.NetStatPraser(), name: "netStat")
-         
-         
-    }
-    return comand
-   }
-}
-
-
-
-
-public enum FireWallComands  {
-    
-    case  fireWallState(id:String)
-    case  fireWallBadHosts(id:String)
-    case  fireWallStart(id:String)
-    case  fireWallStop(id:String)
-    case  addFireWallBadHosts(id:String, ip:String)
-    case  deleteFireWallBadHosts(id:String, ip:String)
-    
-    public  func  comand() ->  Comand {
-        
-        var comand:Comand!
-        
-        switch self {
-        case .fireWallState(let id):
-            print("fireWallState")
-            comand =  FireWallState(withId:id, name:"fireWallState", praser:Prasers.StatePraser()) //TODO: poner el praser ya en cada struct menos la generica
-            
-        case .fireWallBadHosts(let id):
-            print("fireWallBadHosts")
-             comand =  FireWallBadHosts(withId:id,name:"fireWallBadHosts", praser: Prasers.GenericPraser())
-        case .fireWallStart(let id):
-            print("fireWallStart")
-            comand =  FireWallStart(withId: id,name:"fireWallStart", praser: Prasers.GenericPraser())
-            
-        case .fireWallStop(let id):
-            print("fireWallStop")
-             comand =  FireWallStop(withId: id,name:"fireWallStop", praser: Prasers.GenericPraser())
-            
-        case .addFireWallBadHosts(let id,let ip):
-            print("addFireWallBadHosts")
-             comand =  AddFireWallBadHosts(withId: id, withIp:ip,name:"addFireWallBadHosts", praser: Prasers.GenericPraser())
-            
-        case .deleteFireWallBadHosts(let id,let ip):
-            print("deleteFireWallBadHosts")
-             comand =  DeleteFireWallBadHosts(withId:id, withIp:ip,name:"deleteFireWallBadHosts", praser: Prasers.GenericPraser())
-        }
-        return comand
-    }
-    
-}
-
-
-
-
-
-
 public protocol Praserable {
     var praser:Prasable {get set}
 }
+
 
 
 //MARK: --------------------------------  protocol Comand  --------------------------------
@@ -159,7 +21,7 @@ public  protocol Comand:Praserable   {
     var taskPath:String {get set}
     var taskArgs:[String] {get set}
     var name:String {get set}
-    var type:ComandType {get set}
+//    var type:ComandType {get set}
     
 }
 
@@ -257,7 +119,7 @@ public struct GenericComand:Comand   {
     
     public var name: String
     public var praser: Prasable
-    public var type: ComandType = .generic
+//    public var type: ComandType = .generic
     public var taskPath:String =  ""
     public var taskArgs:[String] = [] //FIXME: Aqui creo que falta que se pongan los parametros
     
