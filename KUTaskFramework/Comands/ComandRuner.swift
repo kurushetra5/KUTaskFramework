@@ -34,7 +34,7 @@ public class ComandsRuner {
     static var praser:Prasable! //TODO: Sobra ? lo paso en el ennum
     //    static var forEverComandsRuning:[Comand] = []
     
-    
+    var timers:[KUTimer] = []
     
     
      //MARK: ---------------------- PUBLIC API ---------------------------
@@ -66,11 +66,11 @@ public class ComandsRuner {
     
     public static func run(comand:Comand, completion:@escaping (PraserResult) -> Void) {
         
-//        praser = Prasers.GenericPraser()
+ 
         
         run(comand:comand  , forEver:false) { (result) in
 //            print(result)
-            completion( comand.praser.prase(comandResult:result) ) //FIXME:praser ??? protocolo de salida
+            completion( comand.praser.prase(comandResult:result) )  
         }
     }
     
@@ -78,8 +78,7 @@ public class ComandsRuner {
     
     public static func runForEver(comand:Comand, completion:@escaping (PraserResult) -> Void) {
         
-        //        forEverComandsRuning.append(comand)
-//        praser = Prasers.GenericPraser()
+   
         
         run(comand:comand  , forEver:true) { (result) in
 //            print(result)
