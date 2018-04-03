@@ -59,7 +59,7 @@ struct TraceRoute:ComandWithIP {
     var type: ComandType = .traceRoute
     var ip:String = ""
     var taskPath:String =  "/usr/sbin/traceroute"
-    var taskArgs:[String] = ["-w 1" , "-m30" ,"???"]
+    var taskArgs:[String] = ["-w 1" , "-m30", "???"]
     
     
     init(withIp: String, praser: Prasable) {
@@ -68,6 +68,9 @@ struct TraceRoute:ComandWithIP {
         addIp()
     }
     
+    mutating func addIp() {
+        self.taskArgs[2] = self.ip
+    }
 }
 
 
@@ -87,7 +90,9 @@ struct NsLookup:ComandWithIP {
         self.ip = withIp
         addIp()
     }
-    
+    mutating func addIp() {
+        self.taskArgs = [self.ip]
+    }
 }
 
 
@@ -106,7 +111,9 @@ struct Whois:ComandWithIP {
         self.ip = withIp
         addIp()
     }
-    
+    mutating func addIp() {
+        self.taskArgs = [self.ip]
+    }
 }
 
 

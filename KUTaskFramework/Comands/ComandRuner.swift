@@ -50,40 +50,40 @@ public class ComandsRuner {
     
     
     
-    public static func runGeneric(comand:String, args:[String], completion:@escaping ([String]) -> Void) {
+    public static func runGeneric(comand:String, args:[String], completion:@escaping (PraserResult) -> Void) {
         
         praser =  Prasers.GenericPraser()
         print("Generic")
         let comandForRun:Comand  = GenericComand(praser: praser, type:.generic, taskPath: comand, taskArgs:args)
         
         run(comand:comandForRun  , forEver:false) { (result) in
-            print(result)
-            completion(self.praser.prase(comandResult:result) as! [String])
+//            print(result)
+            completion(self.praser.prase(comandResult:result) )
         }
         
     }
     
     
-    public static func run(comand:Comand, completion:@escaping ([String]) -> Void) {
+    public static func run(comand:Comand, completion:@escaping (PraserResult) -> Void) {
         
 //        praser = Prasers.GenericPraser()
         
         run(comand:comand  , forEver:false) { (result) in
-            print(result)
-            completion([comand.praser.prase(comandResult:result) as! String]) //FIXME:praser ??? protocolo de salida
+//            print(result)
+            completion( comand.praser.prase(comandResult:result) ) //FIXME:praser ??? protocolo de salida
         }
     }
     
     
     
-    public static func runForEver(comand:Comand, completion:@escaping (String) -> Void) {
+    public static func runForEver(comand:Comand, completion:@escaping (PraserResult) -> Void) {
         
         //        forEverComandsRuning.append(comand)
 //        praser = Prasers.GenericPraser()
         
         run(comand:comand  , forEver:true) { (result) in
-            print(result)
-            completion(comand.praser.prase(comandResult:result) as! String)
+//            print(result)
+            completion(comand.praser.prase(comandResult:result) )
         }
     }
     
@@ -120,8 +120,8 @@ public class ComandsRuner {
             
         case false:
             run(comand: comand, completion: { (results,comand) in
-                print(results)
-                print(comand)
+//                print(results)
+//                print(comand)
                 completion(results)
                 
             })
