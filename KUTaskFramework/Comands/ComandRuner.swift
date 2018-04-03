@@ -54,7 +54,7 @@ public class ComandsRuner {
         
         praser =  Prasers.GenericPraser()
         print("Generic")
-        let comandForRun:Comand  = GenericComand(praser: praser, type:.generic, taskPath: comand, taskArgs:args)
+        let comandForRun:Comand  = GenericComand(name:"generic", praser: praser, taskPath: comand, taskArgs:args)
         
         run(comand:comandForRun  , forEver:false) { (result) in
 //            print(result)

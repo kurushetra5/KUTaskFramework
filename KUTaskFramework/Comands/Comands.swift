@@ -27,7 +27,7 @@ public enum CustomComand  {
         switch self {
         case .custom(let praser ,let path ,let args):
             print("custom")
-            comand = GenericComand(praser: praser, type:.generic, taskPath: path, taskArgs: args)
+            comand = GenericComand(name:"generic", praser: praser,   taskPath: path, taskArgs: args)
         }
         return comand
    }
@@ -37,10 +37,7 @@ public enum CustomComand  {
 
 public enum NetInfoComands  {
     
-   
-    
-    
-    case  netStat
+   case  netStat
     
     case whois(ip:String)
     case traceRoute(ip:String)
@@ -58,19 +55,19 @@ public enum NetInfoComands  {
         switch self {
         case .whois(let ip):
             print("whois to: \(ip)")
-            comand = Whois(withIp: ip, praser:Prasers.GenericPraser())
+            comand = Whois(withIp: ip, name:"whois", praser:Prasers.GenericPraser())
             
         case .traceRoute(let ip):
             print("traceRoute to: \(ip)")
-            comand =  TraceRoute(withIp:ip, praser: Prasers.GenericPraser())
+            comand =  TraceRoute(withIp:ip, name:"traceRoute", praser: Prasers.GenericPraser())
             
         case .dig(let ip):
             print("dig to: \(ip)")
-             comand =  TraceRoute(withIp:ip, praser: Prasers.GenericPraser())
+             comand =  TraceRoute(withIp:ip,name:"dig", praser: Prasers.GenericPraser())
             
         case .nsLookup(let ip):
             print("nsLookup to: \(ip)")
-            comand =  NsLookup(withIp: ip, praser: Prasers.GenericPraser())
+            comand =  NsLookup(withIp: ip,name:"nsLookup", praser: Prasers.GenericPraser())
             
          
             
@@ -85,16 +82,16 @@ public enum NetInfoComands  {
             
         case .tcpDump(let ip) :
             print("tcpDump to: \(ip)")
-            comand = TcpDumpCom(withIp: ip, praser: Prasers.GenericPraser())
+            comand = TcpDumpCom(withIp: ip,name:"tcpDump", praser: Prasers.GenericPraser())
             
         case .mtRoute(let id, let ip) :
             print("mtRoute to: \(ip)")
-            comand = MtRoute(withId:id , withIp: ip, praser: Prasers.GenericPraser())
+            comand = MtRoute(withId:id , withIp: ip,name:"mtRoute" ,praser: Prasers.GenericPraser())
             
          
         case .netStat :
             print("netStat")
-            comand = NetStat(praser:Prasers.NetStatPraser())
+            comand = NetStat(praser:Prasers.NetStatPraser(), name: "netStat")
          
          
     }
@@ -121,26 +118,26 @@ public enum FireWallComands  {
         switch self {
         case .fireWallState(let id):
             print("fireWallState")
-            comand =  FireWallState(withId:id, praser:Prasers.StatePraser()) //TODO: poner el praser ya en cada struct menos la generica
+            comand =  FireWallState(withId:id, name:"fireWallState", praser:Prasers.StatePraser()) //TODO: poner el praser ya en cada struct menos la generica
             
         case .fireWallBadHosts(let id):
             print("fireWallBadHosts")
-             comand =  FireWallBadHosts(withId:id, praser: Prasers.GenericPraser())
+             comand =  FireWallBadHosts(withId:id,name:"fireWallBadHosts", praser: Prasers.GenericPraser())
         case .fireWallStart(let id):
             print("fireWallStart")
-            comand =  FireWallStart(withId: id, praser: Prasers.GenericPraser())
+            comand =  FireWallStart(withId: id,name:"fireWallStart", praser: Prasers.GenericPraser())
             
         case .fireWallStop(let id):
             print("fireWallStop")
-             comand =  FireWallStop(withId: id, praser: Prasers.GenericPraser())
+             comand =  FireWallStop(withId: id,name:"fireWallStop", praser: Prasers.GenericPraser())
             
         case .addFireWallBadHosts(let id,let ip):
             print("addFireWallBadHosts")
-             comand =  AddFireWallBadHosts(withId: id, withIp:ip, praser: Prasers.GenericPraser())
+             comand =  AddFireWallBadHosts(withId: id, withIp:ip,name:"addFireWallBadHosts", praser: Prasers.GenericPraser())
             
         case .deleteFireWallBadHosts(let id,let ip):
             print("deleteFireWallBadHosts")
-             comand =  DeleteFireWallBadHosts(withId:id, withIp:ip, praser: Prasers.GenericPraser())
+             comand =  DeleteFireWallBadHosts(withId:id, withIp:ip,name:"deleteFireWallBadHosts", praser: Prasers.GenericPraser())
         }
         return comand
     }
@@ -161,6 +158,7 @@ public protocol Praserable {
 public  protocol Comand:Praserable   {
     var taskPath:String {get set}
     var taskArgs:[String] {get set}
+    var name:String {get set}
     var type:ComandType {get set}
     
 }
@@ -255,12 +253,20 @@ struct NetStatConection  {
 
 
 //MARK: -------------------------------- GENERIC Comand --------------------------------
-struct GenericComand:Comand   {
+public struct GenericComand:Comand   {
     
-    var praser: Prasable
-    var type: ComandType = .generic
-    var taskPath:String =  ""
-    var taskArgs:[String] = [] //FIXME: Aqui creo que falta que se pongan los parametros
+    public var name: String
+    public var praser: Prasable
+    public var type: ComandType = .generic
+    public var taskPath:String =  ""
+    public var taskArgs:[String] = [] //FIXME: Aqui creo que falta que se pongan los parametros
+    
+   public init(name:String, praser:Prasable, taskPath:String, taskArgs:[String] ) {
+        self.name = name
+        self.praser = praser
+        self.taskPath = taskPath
+        self.taskArgs = taskArgs
+    }
 }
 
 

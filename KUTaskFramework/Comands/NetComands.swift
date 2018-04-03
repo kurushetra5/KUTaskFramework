@@ -15,12 +15,14 @@ import Foundation
 //MARK: -------------------------------- NETCOMANDS --------------------------------
 struct NetStat:Comand   {
     
+    var name: String
     var praser: Prasable
     var type: ComandType = .netStat
     var taskPath:String =  "/bin/sh"
     var taskArgs:[String] = ["-c" , "netstat -an  | grep ESTABLISHED"]
     
-    init(praser: Prasable) {
+    init(praser: Prasable, name:String) {
+        self.name = name
         self.praser = praser
     }
 }
@@ -32,13 +34,15 @@ struct NetStat:Comand   {
 
 struct TcpDumpCom:ComandWithIP {
     
+    var name: String
     var type: ComandType = .tcpDump
     var taskPath:String =  "/usr/sbin/tcpdump"
     var taskArgs:[String] = ["-i","en4","-n" ," not (src net 192.168.8.1 and dst net 192.168.8.100) and not  (src net 192.168.8.100 and dst net 192.168.8.1) and not (src net 192.168.8.1 and dst net 239.255.255.250)"]
     var ip:String = ""
     var praser: Prasable
     
-    init(withIp: String, praser: Prasable) {
+    init(withIp: String, name:String, praser: Prasable) {
+         self.name = name
         self.praser = praser
         self.ip = withIp
         //        addIp() //FIXME: Este comando no esta claro
@@ -55,6 +59,7 @@ struct TcpDumpCom:ComandWithIP {
 
 struct TraceRoute:ComandWithIP {
     
+    var name: String
     var praser: Prasable
     var type: ComandType = .traceRoute
     var ip:String = ""
@@ -62,7 +67,8 @@ struct TraceRoute:ComandWithIP {
     var taskArgs:[String] = ["-w 1" , "-m30", "???"]
     
     
-    init(withIp: String, praser: Prasable) {
+    init(withIp: String, name:String, praser: Prasable ) {
+        self.name = name
         self.praser = praser
         self.ip = withIp
         addIp()
@@ -76,16 +82,18 @@ struct TraceRoute:ComandWithIP {
 
 
 
-struct NsLookup:ComandWithIP {
+public struct NsLookup:ComandWithIP {
     
-    var praser: Prasable
-    var type: ComandType = .nsLookup
+    public var name: String
+    public var praser: Prasable
+    public var type: ComandType = .nsLookup
     var ip:String = ""
-    var taskPath:String =  "/usr/bin/nslookup"
-    var taskArgs:[String] = []
+    public var taskPath:String =  "/usr/bin/nslookup"
+    public var taskArgs:[String] = []
     
     
-    init(withIp: String, praser: Prasable) {
+   public init(withIp: String, name:String,  praser: Prasable) {
+        self.name = name
         self.praser = praser
         self.ip = withIp
         addIp()
@@ -99,6 +107,7 @@ struct NsLookup:ComandWithIP {
 
 struct Whois:ComandWithIP {
     
+    var name: String
     var praser: Prasable
     var type: ComandType = .whois
     var ip:String = ""
@@ -106,7 +115,8 @@ struct Whois:ComandWithIP {
     var taskArgs:[String] = []
     
     
-    init(withIp: String, praser: Prasable) {
+    init(withIp: String, name:String, praser: Prasable) {
+        self.name = name
         self.praser = praser
         self.ip = withIp
         addIp()
@@ -120,6 +130,7 @@ struct Whois:ComandWithIP {
 
 struct MtRoute:ComandIpId {
     
+    var name: String
     var praser: Prasable
     var Id: String = ""
     var type: ComandType = .mtRoute
@@ -127,7 +138,8 @@ struct MtRoute:ComandIpId {
     var taskPath:String =  "/bin/sh"
     var taskArgs:[String] = ["-c" , "echo ¿¿¿ | sudo -S  ./mtr -rw -n ??? | awk '{print $2}'"] //FIXME: ruta de mtr no es esta
     
-    init(withId: String, withIp: String, praser: Prasable) {
+    init(withId: String, withIp: String, name:String, praser: Prasable) {
+        self.name = name
         self.praser = praser
         self.ip = withIp
         self.Id = withId
