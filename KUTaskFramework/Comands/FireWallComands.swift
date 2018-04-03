@@ -58,7 +58,8 @@ struct FireWallState:ComandWithID  {
     var taskArgs:[String] = ["-c" , "echo ¿¿¿ | sudo -S pfctl  -s info | grep Status"]
     
     init(withId: String, praser: Prasable) {
-//        self.praser = praser
+        self.type = .fireWallState
+         self.praser = praser
         self.Id = withId
         addId()
     }

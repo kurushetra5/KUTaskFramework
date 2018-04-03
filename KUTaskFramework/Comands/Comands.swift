@@ -11,8 +11,8 @@ import Foundation
 
 
 
-public enum ComandType:String {
-    case tcpDump,traceRoute,mtRoute,whois,nsLookup,blockIp,netStat,fireWallState,fireWallBadHosts,addFireWallBadHosts,deleteFireWallBadHosts,fireWallStop,fireWallStart,genericComand,dig,history,ports_Services,ping,conectionData,generic
+public enum ComandType  {
+    case tcpDump,traceRoute,mtRoute,whois,nsLookup,blockIp,netStat,fireWallState,fireWallBadHosts,addFireWallBadHosts,deleteFireWallBadHosts,fireWallStop,fireWallStart,genericComand,dig,ports_Services,ping,conectionData,generic
 }
 
 
@@ -36,6 +36,9 @@ public enum CustomComand  {
 
 
 public enum NetInfoComands  {
+    
+   
+    
     
     case  netStat
     
@@ -158,7 +161,7 @@ public protocol Praserable {
 public  protocol Comand:Praserable   {
     var taskPath:String {get set}
     var taskArgs:[String] {get set}
-    var type:ComandType {get}
+    var type:ComandType {get set}
     
 }
 

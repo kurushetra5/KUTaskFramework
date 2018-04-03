@@ -34,7 +34,7 @@ public class ComandsRuner {
     static var praser:Prasable! //TODO: Sobra ? lo paso en el ennum
     //    static var forEverComandsRuning:[Comand] = []
     
-    var timers:[KUTimer] = []
+    static var timers:[KUTimer] = []
     
     
      //MARK: ---------------------- PUBLIC API ---------------------------
@@ -78,13 +78,13 @@ public class ComandsRuner {
     
     public static func runForEver(comand:Comand, completion:@escaping (PraserResult) -> Void) {
         
-   
-        
-        run(comand:comand  , forEver:true) { (result) in
-//            print(result)
+      run(comand:comand  , forEver:true) { (result) in
+            print(result)
             completion(comand.praser.prase(comandResult:result) )
         }
     }
+    
+    
     
     
     public static func stopForEver(comand:Comand!) {
@@ -108,14 +108,15 @@ public class ComandsRuner {
         
         switch forEver {
         case true:
+            runTimerTask(comand)
             
-            if timer  == nil {
-                comand1 = comand
-                ComandsRuner().timerStart()
-            }else if timer != nil {
-                comand2 = comand
-                timerStart2()
-            }
+//            if timer  == nil {
+//                comand1 = comand
+//                ComandsRuner().timerStart()
+//            }else if timer != nil {
+//                comand2 = comand
+//                timerStart2()
+//            }
             
         case false:
             run(comand: comand, completion: { (results,comand) in
@@ -129,6 +130,32 @@ public class ComandsRuner {
         
     }
     
+    
+    
+  static  func runTimerTask(_ comand:Comand) {
+    
+        // comprobar si existe la tarea por nombre
+    for timer in timers  {
+        
+        if timer.taskType == comand.type {
+            print("El Comando ya se esta corriendo ...???")
+        } else {
+            // crear KUTimer y rellena
+            
+            var timer:KUTimer = KUTimer(timer:Timer() , id:"TimerID_0001", taskType:comand.type)
+            // pone el timer en el array
+            timers.append(timer)
+            // corre el timer
+            timer.run()
+            
+        }
+    }
+    
+    
+    
+    }
+    
+ 
     
     
 private static func run(comand:Comand, completion:@escaping ([String],ComandType) -> Void) {
