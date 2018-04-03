@@ -112,10 +112,10 @@ public class ComandsRuner {
             
             if timer  == nil {
                 comand1 = comand
-                ComandsRuner().timerStart()
+                 ComandsRuner.timerStart()
             }else if timer != nil {
                 comand2 = comand
-                timerStart2()
+                ComandsRuner.timerStart2()
             }
             
         case false:
@@ -196,19 +196,19 @@ private static func run(comand:Comand, completion:@escaping ([String],String) ->
     
     //MARK: ---------------------- TIMERS ---------------------------
     
-    public   func timerStart() {
-        ComandsRuner.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
+    static  func timerStart() {
+         timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
         print("timerStart()")
     }
     
-    static  func timerStart2() {
-        timer2 = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.timerAction2), userInfo: nil, repeats: true)
+     static func timerStart2() {
+        ComandsRuner.timer2 = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.timerAction2), userInfo: nil, repeats: true)
         print("timerStart2()")
     }
     
     
     
-    @objc func timerAction() {
+    @objc static func timerAction() {
         print("timer Action()")
         
         ComandsRuner.run(comand:ComandsRuner.comand1) { (results, comand) in
@@ -216,7 +216,7 @@ private static func run(comand:Comand, completion:@escaping ([String],String) ->
         }
     }
     
-    @objc func timerAction2() {
+    @objc static func timerAction2() {
         print("timer Action2()")
         
         ComandsRuner.run(comand:ComandsRuner.comand2) { (results, comand) in

@@ -16,6 +16,7 @@ public protocol Praserable {
 
 
 
+
 //MARK: --------------------------------  protocol Comand  --------------------------------
 public  protocol Comand:Praserable   {
     var taskPath:String {get set}

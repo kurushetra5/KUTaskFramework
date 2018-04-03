@@ -53,16 +53,16 @@ struct FireWallStop:ComandWithID  {
 
 
 
-struct FireWallState:ComandWithID  {
+public struct FireWallState:ComandWithID  {
     
-    var name: String
-    var praser: Prasable = Prasers.StatePraser() //TODO: mirarhaver si funciona ???
-    var Id: String = ""
+   public var name: String
+   public var praser: Prasable = Prasers.StatePraser() //TODO: mirarhaver si funciona ???
+   public var Id: String = ""
 //    var type: ComandType = .fireWallState
-    var taskPath:String =  "/bin/sh"
-    var taskArgs:[String] = ["-c" , "echo ¿¿¿ | sudo -S pfctl  -s info | grep Status"]
+   public var taskPath:String =  "/bin/sh"
+   public var taskArgs:[String] = ["-c" , "echo ¿¿¿ | sudo -S pfctl  -s info | grep Status"]
     
-    init(withId: String, name:String, praser: Prasable) {
+   public init(withId: String, name:String, praser: Prasable) {
         self.name = name
 //        self.type = .fireWallState
          self.praser = praser
