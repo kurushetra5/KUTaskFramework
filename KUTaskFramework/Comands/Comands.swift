@@ -81,7 +81,7 @@ extension ComandIpId    {
         addId()
     }
     
-    mutating func addIp() {
+    mutating func addIp() { //TODO: Sobran ???
         let comand:String = taskArgs[1]
         let comandWithIp:String = comand.replacingOccurrences(of:"???", with:self.ip)
         self.taskArgs[1] = comandWithIp
@@ -101,26 +101,15 @@ extension ComandIpId    {
 
 
 
-//MARK: -------------------------------- NetStatConection  --------------------------------
-
-struct NetStatConection  {
-    
-    var ipLocation:IPLocation!
-    var sourceIp:String = ""
-    var destinationIp:String = ""
-    
-}
-
-
-
-
 
 //MARK: -------------------------------- GENERIC Comand --------------------------------
-public struct GenericComand:Comand   {
+
+
+
+public struct GenericComand:Comand   {     //FIXME: Quitar y usar SimpleComand
     
     public var name: String
     public var praser: Prasable
-//    public var type: ComandType = .generic
     public var taskPath:String =  ""
     public var taskArgs:[String] = [] //FIXME: Aqui creo que falta que se pongan los parametros
     
@@ -132,6 +121,77 @@ public struct GenericComand:Comand   {
     }
 }
 
+
+
+public struct SimpleComand:Comand   {
+    
+    public var name: String
+    public var praser: Prasable
+    public var taskPath: String
+    public var taskArgs: [String]
+    
+    public init(name:String, praser: Prasable, taskPath:String, taskArgs:[String]) {
+        self.name = name
+        self.praser = praser
+        self.taskPath = taskPath
+        self.taskArgs = taskArgs
+    }
+}
+
+
+
+public struct IdComand:ComandWithID   {
+    
+    public var Id: String
+    public var name: String
+    public var praser: Prasable
+    public var taskPath: String
+    public var taskArgs: [String]
+    
+    public init(id: String, name:String, praser: Prasable, taskPath:String, taskArgs:[String]) {
+        self.Id = id
+        self.name = name
+        self.praser = praser
+        self.taskPath = taskPath
+        self.taskArgs = taskArgs
+    }
+}
+
+public struct IpComand:ComandWithIP   {
+    
+    public var ip: String
+    public var name: String
+    public var praser: Prasable
+    public var taskPath: String
+    public var taskArgs: [String]
+    
+    public init(ip: String, name:String, praser: Prasable, taskPath:String, taskArgs:[String]) {
+        self.ip = ip
+        self.name = name
+        self.praser = praser
+        self.taskPath = taskPath
+        self.taskArgs = taskArgs
+    }
+}
+
+public struct IdIpComand:ComandIpId  {
+    
+    public var Id: String
+    public var ip: String
+    public var name: String
+    public var praser: Prasable
+    public var taskPath: String
+    public var taskArgs: [String]
+    
+    public init(id: String, ip: String, name:String, praser: Prasable, taskPath:String, taskArgs:[String]) {
+        self.Id = id
+        self.ip = ip
+        self.name = name
+        self.praser = praser
+        self.taskPath = taskPath
+        self.taskArgs = taskArgs
+    }
+}
 
 
  

@@ -10,8 +10,19 @@
 import Foundation
 
 
+
 protocol IPLocatorDelegate {
     func ipLocationReady(ipLocation:NetStatConection)
+}
+
+//MARK: -------------------------------- NetStatConection  --------------------------------
+
+struct NetStatConection  {
+
+    var ipLocation:IPLocation!
+    var sourceIp:String = ""
+    var destinationIp:String = ""
+
 }
 
 

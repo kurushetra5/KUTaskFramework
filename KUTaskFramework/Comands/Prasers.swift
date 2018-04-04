@@ -15,6 +15,8 @@ public protocol Prasable  {
     func prase(comandResult:[String]) -> PraserResult
 }
 
+
+
 public   enum  PraserType {
     case generic,state
     
@@ -35,6 +37,8 @@ public   enum  PraserType {
     }
     
 }
+
+
 
 
 public protocol PraserResultable  {
