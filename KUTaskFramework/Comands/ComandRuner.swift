@@ -89,13 +89,7 @@ public class ComandsRuner {
     
     
     
-    public static func stopForEver(comand:Comand!) {
-        
-        if timer  != nil {
-            timer.invalidate()
-            
-        }
-    }
+    
     
     
     
@@ -207,12 +201,39 @@ private static func run(comand:Comand, completion:@escaping ([String],String) ->
     
     
     //MARK: ---------------------- TIMERS ---------------------------
+    
+    public static func stopForEver(comand:String) {
+        
+        stop(comandName:comand)
+    }
+    
+    
+    static  func stop(comandName:String) {
+        
+        for timer in timers {
+            if timer.taskType == comandName {
+                timer.timer.invalidate()
+                
+                if let index = timers.index(where: {$0.taskType == comandName}) {
+                    timers.remove(at: index)
+                }
+            } else {
+                print("Timer with Procces not Runing..")
+            }
+        }
+    }
+    
+    
     static  func start(timer:KUTimer, with comand:Comand ) {
         
         timer.isRunning = true
         timer.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerKU), userInfo:["KUComand":comand], repeats: true)
       
     }
+    
+    
+    
+    
     
     
     @objc static func timerKU(timer:Timer) {
