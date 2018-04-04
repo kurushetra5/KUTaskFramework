@@ -34,7 +34,9 @@ public class ComandsRuner {
     static var praser:Prasable! //TODO: Sobra ? lo paso en el ennum
     //    static var forEverComandsRuning:[Comand] = []
     
+    
     static var timers:[KUTimer] = []
+    
     static var comandToRunForEver:Comand!
     
      //MARK: ---------------------- PUBLIC API ---------------------------
@@ -149,7 +151,7 @@ public class ComandsRuner {
             timers.append(timer)
             // corre el timer
 //            timer.run()
-            start(timer:timer )
+            start(timer:timer, with: comand )
         }
     }
     
@@ -160,7 +162,7 @@ public class ComandsRuner {
         timers.append(timer)
         // corre el timer
         //            timer.run()
-        start(timer:timer )
+        start(timer:timer, with: comand )
     }
     
     }
@@ -205,17 +207,21 @@ private static func run(comand:Comand, completion:@escaping ([String],String) ->
     
     
     //MARK: ---------------------- TIMERS ---------------------------
-    static  func start(timer:KUTimer ) {
+    static  func start(timer:KUTimer, with comand:Comand ) {
+        
         timer.isRunning = true
-        timer.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerKU), userInfo:nil, repeats: true)
-        print("timerInArray()")
+        timer.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerKU), userInfo:["KUComand":comand], repeats: true)
+      
     }
     
     
-    @objc static func timerKU() {
-        print("timer Action() IN Array ")
+    @objc static func timerKU(timer:Timer) {
         
-        ComandsRuner.run(comand:comandToRunForEver) { (results, comand) in
+        let timerUserInfo = timer.userInfo as! Dictionary<String, Comand>
+        let comandToRun:Comand = timerUserInfo["KUComand"]!
+ 
+        
+        ComandsRuner.run(comand:comandToRun) { (results, comand) in
             ComandsRuner.comandsRunerDelegate?.finish(comand:comand, withResult:results)
         }
     }
