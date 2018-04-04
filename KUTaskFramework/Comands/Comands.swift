@@ -22,7 +22,7 @@ public  protocol Comand:Praserable   {
     var taskPath:String {get set}
     var taskArgs:[String] {get set}
     var name:String {get set}
-//    var type:ComandType {get set}
+ 
     
 }
 
