@@ -35,7 +35,7 @@ public class ComandsRuner {
     //    static var forEverComandsRuning:[Comand] = []
     
     static var timers:[KUTimer] = []
-    
+    static var comandToRunForEver:Comand!
     
      //MARK: ---------------------- PUBLIC API ---------------------------
     
@@ -108,15 +108,15 @@ public class ComandsRuner {
         
         switch forEver {
         case true:
-//            runTimerTask(comand)
+            runTimerTask(comand)
             
-            if timer  == nil {
-                comand1 = comand
-                 ComandsRuner.timerStart()
-            }else if timer != nil {
-                comand2 = comand
-                ComandsRuner.timerStart2()
-            }
+//            if timer  == nil {
+//                comand1 = comand
+//                 ComandsRuner.timerStart()
+//            }else if timer != nil {
+//                comand2 = comand
+//                ComandsRuner.timerStart2()
+//            }
             
         case false:
             run(comand: comand, completion: { (results,comand) in
@@ -134,6 +134,8 @@ public class ComandsRuner {
     
   static  func runTimerTask(_ comand:Comand) {
     
+        comandToRunForEver = comand
+    
         // comprobar si existe la tarea por nombre
     for timer in timers  {
         
@@ -142,16 +144,24 @@ public class ComandsRuner {
         } else {
             // crear KUTimer y rellena
             
-            var timer:KUTimer = KUTimer(timer:Timer() , id:"TimerID_0001", taskType:comand.name)
+            let timer:KUTimer = KUTimer(timer:Timer() , id:"TimerID_0001", taskType:comand.name)
             // pone el timer en el array
             timers.append(timer)
             // corre el timer
-            timer.run()
-            
+//            timer.run()
+            start(timer:timer )
         }
     }
     
-    
+    if timers.count == 0 {
+        
+        let timer:KUTimer = KUTimer(timer:Timer() , id:"TimerID_0001", taskType:comand.name)
+        // pone el timer en el array
+        timers.append(timer)
+        // corre el timer
+        //            timer.run()
+        start(timer:timer )
+    }
     
     }
     
@@ -195,11 +205,30 @@ private static func run(comand:Comand, completion:@escaping ([String],String) ->
     
     
     //MARK: ---------------------- TIMERS ---------------------------
+    static  func start(timer:KUTimer ) {
+        timer.isRunning = true
+        timer.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerKU), userInfo:nil, repeats: true)
+        print("timerInArray()")
+    }
+    
+    
+    @objc static func timerKU() {
+        print("timer Action() IN Array ")
+        
+        ComandsRuner.run(comand:comandToRunForEver) { (results, comand) in
+            ComandsRuner.comandsRunerDelegate?.finish(comand:comand, withResult:results)
+        }
+    }
+    
+    
+    
+    
     
     static  func timerStart() {
          timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
         print("timerStart()")
     }
+    
     
      static func timerStart2() {
         ComandsRuner.timer2 = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.timerAction2), userInfo: nil, repeats: true)
@@ -209,7 +238,7 @@ private static func run(comand:Comand, completion:@escaping ([String],String) ->
     
     
     @objc static func timerAction() {
-        print("timer Action()")
+        print("timer Action() ")
         
         ComandsRuner.run(comand:ComandsRuner.comand1) { (results, comand) in
             ComandsRuner.comandsRunerDelegate?.finish(comand:comand, withResult:results)
