@@ -12,7 +12,7 @@ import Foundation
 
 
 public protocol Prasable  {
-    func prase(comandResult:[String]) -> PraserResult //FIXME: Hacer publica
+    func prase(comandResult:[String]) -> Any
 }
 
 
@@ -63,7 +63,7 @@ public   class Prasers  {
     
     struct GenericPraser:Prasable   {
         
-        public func prase(comandResult:[String]) -> PraserResult { //FIXME: Si puede ser devolver [String]
+        public func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver [String]
             let result:PraserResult = PraserResult(dataType:"array", dataString:"nil", dataArray:comandResult)
             return result
         }
@@ -73,7 +73,7 @@ public   class Prasers  {
     
     struct StatePraser:Prasable   {
         
-        func prase(comandResult:[String]) -> PraserResult { //FIXME: Si puede ser devolver String
+        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
             var state:String!
             
             if comandResult[0].contains("Status:") { //FIXME: Arreglar
@@ -93,7 +93,7 @@ public   class Prasers  {
     struct NetStatPraser:Prasable   {
         
         
-        func prase(comandResult:[String]) -> PraserResult { //FIXME: Si puede ser devolver String
+        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
             var result:[String]!
             if comandResult[0].contains("tcp4") {
                 result = comandResult
@@ -106,7 +106,7 @@ public   class Prasers  {
     
     struct badHostsPraser:Prasable   {
         
-        func prase(comandResult:[String]) -> PraserResult { //FIXME: Si puede ser devolver String
+        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
             let results:PraserResult = PraserResult(dataType:"array", dataString:"nil", dataArray:comandResult)
             return results
         }
@@ -114,7 +114,7 @@ public   class Prasers  {
     
     struct nsLookUpPraser:Prasable   {
         
-        func prase(comandResult:[String]) -> PraserResult { //FIXME: Si puede ser devolver String
+        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
             var result:[String]!
             
             if comandResult.contains("Server:") {

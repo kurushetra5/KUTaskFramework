@@ -92,7 +92,7 @@ public struct NsLookup:ComandWithIP {
     public var name: String
     public var praser: Prasable
 //    public var type: ComandType = .nsLookup
-    var ip:String = ""
+    public var ip:String = ""
     public var taskPath:String =  "/usr/bin/nslookup"
     public var taskArgs:[String] = []
     
@@ -103,7 +103,7 @@ public struct NsLookup:ComandWithIP {
         self.ip = withIp
         addIp()
     }
-    mutating func addIp() {
+    mutating public func addIp() {
         self.taskArgs = [self.ip]
     }
 }

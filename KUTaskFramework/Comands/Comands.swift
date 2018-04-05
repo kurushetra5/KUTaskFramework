@@ -18,7 +18,8 @@ public protocol Praserable {
 
 
 //MARK: --------------------------------  protocol Comand  --------------------------------
-public  protocol Comand:Praserable   {
+public  protocol Comand    {
+    var praser:Prasable {get set}
     var taskPath:String {get set}
     var taskArgs:[String] {get set}
     var name:String {get set}
@@ -30,14 +31,14 @@ public  protocol Comand:Praserable   {
 
 
 //MARK: --------------------------------  protocol ComandWithIP  --------------------------------
-protocol ComandWithIP:Comand  {
+public protocol ComandWithIP:Comand  {
     var ip:String{get set}
     mutating func addIp()
 }
 
 extension ComandWithIP   {
     
-    mutating func addIp() {
+    mutating public func addIp() {
         let comand:String = taskArgs[1]
         let comandWithIp:String = comand.replacingOccurrences(of:"???", with:self.ip)
         self.taskArgs[1] = comandWithIp
@@ -50,14 +51,14 @@ extension ComandWithIP   {
 
 
 //MARK: --------------------------------  protocol ComandWithID  --------------------------------
-protocol ComandWithID:Comand {
+public protocol ComandWithID:Comand {
     var Id:String{get set}
     mutating func addId()
 }
 
 extension ComandWithID   {
     
-    mutating func addId() {
+    mutating public func addId() {
         
         let comand:String = taskArgs[1]  //FIXME: Aqqui falla no se le pasan los arrgs ??
         let comandWithId:String = comand.replacingOccurrences(of:"¿¿¿", with:self.Id)
@@ -70,24 +71,25 @@ extension ComandWithID   {
 
 
 //MARK: --------------------------------  protocol ComandIpId  --------------------------------
-protocol ComandIpId:ComandWithID,ComandWithIP {
+public protocol ComandIpId:ComandWithID,ComandWithIP {
+    mutating func addIPAndID()
 }
 
 extension ComandIpId    {
   
  
-    mutating func addIPAndID() {
+    mutating public func addIPAndID() {
         addIp()
         addId()
     }
     
-    mutating func addIp() { //TODO: Sobran ???
+    mutating public func addIp() { //TODO: Sobran ???
         let comand:String = taskArgs[1]
         let comandWithIp:String = comand.replacingOccurrences(of:"???", with:self.ip)
         self.taskArgs[1] = comandWithIp
         
     }
-    mutating func addId() {
+    mutating public func addId() {
         
         let comand:String = taskArgs[1]
         let comandWithId:String = comand.replacingOccurrences(of:"¿¿¿", with:self.Id)

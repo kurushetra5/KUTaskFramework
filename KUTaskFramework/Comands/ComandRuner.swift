@@ -11,7 +11,7 @@ import Foundation
 
 
 public protocol ComandsRunerDelegate {
-    func finish(comand:String, withResult result:[String])
+    func finish(comand:String, withResult result:Any)
 }
 
 public enum ComandsRunerError: Error {
@@ -44,20 +44,20 @@ public class ComandsRuner {
     
     
     
-    public static func runGeneric(comand:String, args:[String], completion:@escaping (PraserResult) -> Void) {
+    public static func runGeneric(comand:String, args:[String], completion:@escaping (Any) -> Void) {
         
         praser =  Prasers.GenericPraser()
         print("Generic")
         let comandForRun:Comand  = GenericComand(name:"generic", praser: praser, taskPath: comand, taskArgs:args)
         
         run(comand:comandForRun  , forEver:false) { (result) in
-            completion(self.praser.prase(comandResult:result) )
+            completion(self.praser.prase(comandResult:result))
         }
         
     }
     
     
-    public static func run(comand:Comand, completion:@escaping (PraserResult) -> Void) {
+    public static func run(comand:Comand, completion:@escaping (Any) -> Void) {
         run(comand:comand  , forEver:false) { (result) in
             completion( comand.praser.prase(comandResult:result) )
         }
@@ -65,7 +65,7 @@ public class ComandsRuner {
     
     
     
-    public static func runForEver(comand:Comand, completion:@escaping (PraserResult) -> Void) { //FIXME: devolver Any no PraserResult
+    public static func runForEver(comand:Comand, completion:@escaping (Any) -> Void) { //FIXME: devolver Any no PraserResult
         run(comand:comand  , forEver:true) { (result) in
             print(result)
             completion(comand.praser.prase(comandResult:result) ) //FIXME: devolver Any
@@ -149,10 +149,27 @@ public class ComandsRuner {
     
     
     
-    
-    
-    
     //MARK: ---------------------- TIMERS ---------------------------
+    
+    static  func start(timer:KUTimer, with comand:Comand ) {
+        
+        timer.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerKU), userInfo:["KUComand":comand], repeats: true)
+    }
+    
+    
+    @objc static func timerKU(timer:Timer) {
+        let timerUserInfo = timer.userInfo as! Dictionary<String, Comand>
+        let comandToRun:Comand = timerUserInfo["KUComand"]!
+        
+        ComandsRuner.run(comand:comandToRun) { (results, comand) in
+            
+            let comandResults = comandToRun.praser.prase(comandResult: results)
+            ComandsRuner.comandsRunerDelegate?.finish(comand:comand, withResult:comandResults)
+        }
+    }
+    
+    
+    
     
     public static func stopForEver(comand:String) {
         stop(comandName:comand)
@@ -175,20 +192,7 @@ public class ComandsRuner {
     }
     
     
-    static  func start(timer:KUTimer, with comand:Comand ) {
- 
-        timer.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerKU), userInfo:["KUComand":comand], repeats: true)
-    }
     
-    
-    @objc static func timerKU(timer:Timer) {
-        let timerUserInfo = timer.userInfo as! Dictionary<String, Comand>
-        let comandToRun:Comand = timerUserInfo["KUComand"]!
-        
-        ComandsRuner.run(comand:comandToRun) { (results, comand) in
-            ComandsRuner.comandsRunerDelegate?.finish(comand:comand, withResult:results)
-        }
-    }
     
     
     
