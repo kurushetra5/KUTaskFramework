@@ -65,12 +65,11 @@ public class ComandsRuner {
     
     
     
-    public static func runForEver(comand:Comand, completion:@escaping (Any) -> Void) { //FIXME: devolver Any no PraserResult
-        run(comand:comand  , forEver:true) { (result) in
-            print(result)
-            completion(comand.praser.prase(comandResult:result) ) //FIXME: devolver Any
-        }
+    public static func runForEver(comand:Comand) {
+           runTimerTask(comand)
     }
+    
+    
     
     
     
