@@ -65,10 +65,10 @@ public class ComandsRuner {
     
     
     
-    public static func runForEver(comand:Comand, completion:@escaping (PraserResult) -> Void) {
+    public static func runForEver(comand:Comand, completion:@escaping (PraserResult) -> Void) { //FIXME: devolver Any no PraserResult
         run(comand:comand  , forEver:true) { (result) in
             print(result)
-            completion(comand.praser.prase(comandResult:result) )
+            completion(comand.praser.prase(comandResult:result) ) //FIXME: devolver Any
         }
     }
     

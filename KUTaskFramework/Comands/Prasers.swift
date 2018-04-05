@@ -12,7 +12,7 @@ import Foundation
 
 
 public protocol Prasable  {
-    func prase(comandResult:[String]) -> PraserResult
+    func prase(comandResult:[String]) -> PraserResult //FIXME: Hacer publica
 }
 
 
@@ -41,11 +41,11 @@ public   enum  PraserType {
 
 
 
-public protocol PraserResultable  {
+public  protocol PraserResultable  {
     var dataType:String {get set}
     var dataString:String {get set}
     var dataArray:[String] {get set}
-   
+    //FIXME: Poner Init publico ??? creo
 }
 
 public struct PraserResult:PraserResultable {
@@ -84,7 +84,7 @@ public   class Prasers  {
                     state = "Enabled"
                 }
             }
-            let result:PraserResult = PraserResult(dataType:"string", dataString:state, dataArray:["nil"])
+            let result:PraserResult = PraserResult(dataType:"string", dataString:state, dataArray:["nil"]) //FIXME: hay que decidir o array o string
             return result
         }
     }
