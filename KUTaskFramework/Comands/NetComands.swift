@@ -39,6 +39,11 @@ public struct NetStat:Comand   {
 
 struct TcpDumpCom:ComandWithIP {
     
+    func addIp() {
+       
+    }
+    
+    
     var name: String
 //    var type: ComandType = .tcpDump
     var taskPath:String =  "/usr/sbin/tcpdump"

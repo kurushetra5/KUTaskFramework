@@ -38,12 +38,12 @@ public protocol ComandWithIP:Comand  {
 
 extension ComandWithIP   {
     
-    mutating public func addIp() {
-        let comand:String = taskArgs[1]
-        let comandWithIp:String = comand.replacingOccurrences(of:"???", with:self.ip)
-        self.taskArgs[1] = comandWithIp
-        
-    }
+//    mutating public func addIp() {
+//        let comand:String = taskArgs[1]
+//        let comandWithIp:String = comand.replacingOccurrences(of:"???", with:self.ip)
+//        self.taskArgs[1] = comandWithIp
+//
+//    }
     
 }
 
@@ -160,6 +160,11 @@ public struct IdComand:ComandWithID   {
 }
 
 public struct IpComand:ComandWithIP   {
+    
+    public func addIp() {
+        
+    }
+    
     
     public var ip: String
     public var name: String
