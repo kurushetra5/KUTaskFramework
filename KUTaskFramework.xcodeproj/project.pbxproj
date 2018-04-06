@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		61D267892072C27700E9FDF8 /* NetComands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D267882072C27700E9FDF8 /* NetComands.swift */; };
-		61D2678B2072C2BC00E9FDF8 /* FireWallComands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D2678A2072C2BC00E9FDF8 /* FireWallComands.swift */; };
 		61D2678D2073E5A200E9FDF8 /* KUTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D2678C2073E5A200E9FDF8 /* KUTimer.swift */; };
 		61DE8E57206DBAC000C77F5F /* KUTaskFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 61DE8E55206DBAC000C77F5F /* KUTaskFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		61DE8E62206DBB0600C77F5F /* Comands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DE8E5E206DBB0600C77F5F /* Comands.swift */; };
@@ -17,8 +15,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		61D267882072C27700E9FDF8 /* NetComands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetComands.swift; sourceTree = "<group>"; };
-		61D2678A2072C2BC00E9FDF8 /* FireWallComands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireWallComands.swift; sourceTree = "<group>"; };
 		61D2678C2073E5A200E9FDF8 /* KUTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KUTimer.swift; sourceTree = "<group>"; };
 		61DE8E52206DBAC000C77F5F /* KUTaskFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KUTaskFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61DE8E55206DBAC000C77F5F /* KUTaskFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KUTaskFramework.h; sourceTree = "<group>"; };
@@ -72,8 +68,6 @@
 				61D2678C2073E5A200E9FDF8 /* KUTimer.swift */,
 				61DE8E5E206DBB0600C77F5F /* Comands.swift */,
 				61DE8E61206DBB0600C77F5F /* Prasers.swift */,
-				61D267882072C27700E9FDF8 /* NetComands.swift */,
-				61D2678A2072C2BC00E9FDF8 /* FireWallComands.swift */,
 			);
 			path = Comands;
 			sourceTree = "<group>";
@@ -160,9 +154,7 @@
 				61DE8E65206DBB0600C77F5F /* Prasers.swift in Sources */,
 				61DE8E62206DBB0600C77F5F /* Comands.swift in Sources */,
 				61D2678D2073E5A200E9FDF8 /* KUTimer.swift in Sources */,
-				61D267892072C27700E9FDF8 /* NetComands.swift in Sources */,
 				61DE8E64206DBB0600C77F5F /* ComandRuner.swift in Sources */,
-				61D2678B2072C2BC00E9FDF8 /* FireWallComands.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

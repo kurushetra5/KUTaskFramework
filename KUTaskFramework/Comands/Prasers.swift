@@ -17,114 +17,12 @@ public protocol Prasable  {
 
 
 
-public   enum  PraserType {
-    case generic,state
-    
-    
-    public  func praserToUse() -> Prasable {
-        var  praser:Prasable!
-        
-        switch self {
-            
-        case .generic:
-            print("generic Praser")
-            praser =  Prasers.GenericPraser()
-        case .state:
-            print("state Praser")
-            praser =  Prasers.StatePraser()
-        }
-        return praser
-    }
-    
-}
-
-
-
-
-public  protocol PraserResultable  {
-    var dataType:String {get set}
-    var dataString:String {get set}
-    var dataArray:[String] {get set}
-    //FIXME: Poner Init publico ??? creo
-}
-
-public struct PraserResult:PraserResultable {
-   public var dataType: String
-   public var dataString: String
-   public var dataArray: [String]
-    
-    
-}
-
-
 
 public   class Prasers  {
     
-    
     struct GenericPraser:Prasable   {
-        
-        public func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver [String]
-            let result:PraserResult = PraserResult(dataType:"array", dataString:"nil", dataArray:comandResult)
-            return result
-        }
-        
-    }
-    
-    
-    struct StatePraser:Prasable   {
-        
-        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
-            var state:String!
-            
-            if comandResult[0].contains("Status:") { //FIXME: Arreglar
-                
-                if comandResult[0].contains("Disabled") {
-                    state = "Disabled"
-                } else if comandResult[0].contains("Enabled"){
-                    state = "Enabled"
-                }
-            }
-            let result:PraserResult = PraserResult(dataType:"string", dataString:state, dataArray:["nil"]) //FIXME: hay que decidir o array o string
-            return result
+        public func prase(comandResult:[String]) -> Any {
+            return comandResult
         }
     }
-    
-    
-    struct NetStatPraser:Prasable   {
-        
-        
-        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
-            var result:[String]!
-            if comandResult[0].contains("tcp4") {
-                result = comandResult
-            }
-            let results:PraserResult = PraserResult(dataType:"array", dataString:"nil", dataArray:result)
-            return results
-        }
-    }
-    
-    
-    struct badHostsPraser:Prasable   {
-        
-        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
-            let results:PraserResult = PraserResult(dataType:"array", dataString:"nil", dataArray:comandResult)
-            return results
-        }
-    }
-    
-    struct nsLookUpPraser:Prasable   {
-        
-        func prase(comandResult:[String]) -> Any { //FIXME: Si puede ser devolver String
-            var result:[String]!
-            
-            if comandResult.contains("Server:") {
-                
-                result = comandResult
-            }
-            let results:PraserResult = PraserResult(dataType:"array", dataString:"nil", dataArray:result)
-            return  results
-        }
-    }
-    
-    
 }

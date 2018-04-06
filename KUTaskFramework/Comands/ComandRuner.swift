@@ -12,6 +12,8 @@ import Foundation
 
 public protocol ComandsRunerDelegate {
     func finish(comand:String, withResult result:Any)
+    func finishWith(error:Error)
+    
 }
 
 public enum ComandsRunerError: Error {
@@ -23,47 +25,22 @@ public enum ComandsRunerError: Error {
 
 
 
+
 public class ComandsRuner {
    
     
     public static var comandsRunerDelegate:ComandsRunerDelegate!
-    static var praser:Prasable! //TODO: Sobra ? lo paso en el ennum
     static var timers:[KUTimer] = []
     
-    
-    
-    //MARK: ---------------------- PUBLIC API ---------------------------
-    
-    public static func setPraser(praser:Any)  throws  {  //TODO: Sobra ???
-        
-        guard let thePraser =  praser as? Prasable else {
-            throw ComandsRunerError.ComandsRunerFailed(reason:"ERROR Class: ComandsRuner Location: public static func setPraser(praser:Any)  throws Reason: The praser introduced do not conform to protocol Prasabl")
-        }
-        self.praser = thePraser
-    }
-    
-    
-    
-    public static func runGeneric(comand:String, args:[String], completion:@escaping (Any) -> Void) {
-        
-        praser =  Prasers.GenericPraser()
-        print("Generic")
-        let comandForRun:Comand  = GenericComand(name:"generic", praser: praser, taskPath: comand, taskArgs:args)
-        
-        run(comand:comandForRun) { (result) in
-            completion(self.praser.prase(comandResult:result))
-        }
-        
-    }
     
     
     public static func run(comand:Comand, completion:@escaping (Any) -> Void) {
         run(comand:comand ) { (result) in
             completion( comand.praser.prase(comandResult:result) )
         }
+        
+        
     }
-    
-    
     
     public static func runForEver(comand:Comand, interval:Double) {
            runTimerTask(comand, every:interval)
@@ -77,13 +54,14 @@ public class ComandsRuner {
     //MARK: ---------------------- PRIVATE API ---------------------------
     
     private  static func run(comand:Comand  ,completion:@escaping ([String]) -> Void) {
-        
-        run(comand: comand, completion: { (results,comand) in
+
+        start(comand: comand, completion: { (results,comand) in
                 completion(results)
-                
-       })
-        
+            
+        })
+
     }
+    
     
     static  func runTimerTask(_ comand:Comand, every:Double) {
        
@@ -91,7 +69,7 @@ public class ComandsRuner {
         for timer in timers  {
             
             if timer.taskType == comand.name {
-                print("El Comando ya se esta corriendo ...???")
+                comandsRunerDelegate?.finishWith(error:ComandsRunerError.ComandsRunerFailed(reason:"El Comando ya se esta corriendo y se intenta correr otra Vez"))
             } else {
                 let timer:KUTimer = KUTimer(timer:Timer() , id:"TimerID_0001", taskType:comand.name) //TODO: poner id random y comprobar por id
                 timers.append(timer)
@@ -107,7 +85,7 @@ public class ComandsRuner {
         
     }
     
-    private static func run(comand:Comand, completion:@escaping ([String],String) -> Void) {
+    private static func start(comand:Comand, completion:@escaping ([String],String) -> Void) {
         
         let task = Process()
         task.launchPath = comand.taskPath
@@ -116,7 +94,7 @@ public class ComandsRuner {
         task.terminationHandler = { task in
             guard task.terminationStatus == 0
                 else {
-                    NSLog("The process fail to operate.")
+                    comandsRunerDelegate?.finishWith(error:ComandsRunerError.ComandsRunerFailed(reason:"The process fail to operate."))
                     return
             }
             
@@ -140,20 +118,22 @@ public class ComandsRuner {
     
     
     
+    
+    
+    
     //MARK: ---------------------- TIMERS ---------------------------
     
     static  func start(timer:KUTimer, with comand:Comand, every:Double ) {
-        
         timer.timer = Timer.scheduledTimer(timeInterval:every, target: self, selector: #selector(self.timerKU), userInfo:["KUComand":comand], repeats: true)
     }
     
     
+    
     @objc static func timerKU(timer:Timer) {
-        
         let timerUserInfo = timer.userInfo as! Dictionary<String, Comand>
         let comandToRun:Comand = timerUserInfo["KUComand"]!
         
-        ComandsRuner.run(comand:comandToRun) { (results, comand) in
+        ComandsRuner.start(comand:comandToRun) { (results, comand) in
             
             let comandResults = comandToRun.praser.prase(comandResult: results)
             ComandsRuner.comandsRunerDelegate?.finish(comand:comand, withResult:comandResults)
@@ -163,9 +143,11 @@ public class ComandsRuner {
     
     
     
+    
     public static func stopForEver(comand:String) {
         stop(comandName:comand)
     }
+    
     
     
     static  func stop(comandName:String) {
@@ -178,7 +160,8 @@ public class ComandsRuner {
                     timers.remove(at: index)
                 }
             } else {
-                print("Timer with Procces not Runing..")
+                comandsRunerDelegate?.finishWith(error:ComandsRunerError.ComandsRunerFailed(reason:"Timer with Procces not Runing... you try to Stoped"))
+                
             }
         }
     }
