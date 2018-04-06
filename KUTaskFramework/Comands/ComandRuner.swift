@@ -50,7 +50,7 @@ public class ComandsRuner {
         print("Generic")
         let comandForRun:Comand  = GenericComand(name:"generic", praser: praser, taskPath: comand, taskArgs:args)
         
-        run(comand:comandForRun  , forEver:false) { (result) in
+        run(comand:comandForRun) { (result) in
             completion(self.praser.prase(comandResult:result))
         }
         
@@ -58,15 +58,15 @@ public class ComandsRuner {
     
     
     public static func run(comand:Comand, completion:@escaping (Any) -> Void) {
-        run(comand:comand  , forEver:false) { (result) in
+        run(comand:comand ) { (result) in
             completion( comand.praser.prase(comandResult:result) )
         }
     }
     
     
     
-    public static func runForEver(comand:Comand) {
-           runTimerTask(comand)
+    public static func runForEver(comand:Comand, interval:Double) {
+           runTimerTask(comand, every:interval)
     }
     
     
@@ -76,24 +76,16 @@ public class ComandsRuner {
     
     //MARK: ---------------------- PRIVATE API ---------------------------
     
-    private  static func run(comand:Comand, forEver:Bool ,completion:@escaping ([String]) -> Void) {
+    private  static func run(comand:Comand  ,completion:@escaping ([String]) -> Void) {
         
-        switch forEver {
-        case true:
-            runTimerTask(comand)
-            
-            
-        case false:
-            run(comand: comand, completion: { (results,comand) in
+        run(comand: comand, completion: { (results,comand) in
                 completion(results)
                 
-            })
-            
-        }
+       })
         
     }
     
-    static  func runTimerTask(_ comand:Comand) {
+    static  func runTimerTask(_ comand:Comand, every:Double) {
        
         
         for timer in timers  {
@@ -103,14 +95,14 @@ public class ComandsRuner {
             } else {
                 let timer:KUTimer = KUTimer(timer:Timer() , id:"TimerID_0001", taskType:comand.name) //TODO: poner id random y comprobar por id
                 timers.append(timer)
-                start(timer:timer, with: comand )
+                start(timer:timer, with: comand , every:every)
             }
         }
         
         if timers.count == 0 {
             let timer:KUTimer = KUTimer(timer:Timer() , id:"TimerID_0001", taskType:comand.name)
             timers.append(timer)
-            start(timer:timer, with: comand )
+            start(timer:timer, with: comand, every:every )
         }
         
     }
@@ -150,13 +142,14 @@ public class ComandsRuner {
     
     //MARK: ---------------------- TIMERS ---------------------------
     
-    static  func start(timer:KUTimer, with comand:Comand ) {
+    static  func start(timer:KUTimer, with comand:Comand, every:Double ) {
         
-        timer.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.timerKU), userInfo:["KUComand":comand], repeats: true)
+        timer.timer = Timer.scheduledTimer(timeInterval:every, target: self, selector: #selector(self.timerKU), userInfo:["KUComand":comand], repeats: true)
     }
     
     
     @objc static func timerKU(timer:Timer) {
+        
         let timerUserInfo = timer.userInfo as! Dictionary<String, Comand>
         let comandToRun:Comand = timerUserInfo["KUComand"]!
         
